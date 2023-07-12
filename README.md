@@ -12,6 +12,18 @@ To interact with (your) Snaps, you will need to install [MetaMask Flask](https:/
 
 Clone the template-snap repository [using this template](https://github.com/MetaMask/template-snap-monorepo/generate) and setup the development environment:
 
+```
+yarn create @metamask/snap nostamask 
+npx create-next-app@latest app
+
+cd packages/app
+npm i eslint-config-next --save-dev
+npm i eslint-plugin-next --save-dev
+
+cd ../..
+
+```
+
 ```shell
 yarn install && yarn start
 ```
