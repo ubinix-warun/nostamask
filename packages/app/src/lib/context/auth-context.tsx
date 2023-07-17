@@ -74,9 +74,13 @@ export function AuthContextProvider({
       coverPhotoURL: null
     };
 
-    setUser(userData);
+    // setUser(userData);
+    // setLoading(false);
+    // setUserBookmarks([]);
+
+    setUser(null);
     setLoading(false);
-    setUserBookmarks([]);
+    setUserBookmarks(null);
 
   }, []);
 
