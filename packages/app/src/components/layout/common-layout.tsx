@@ -1,7 +1,7 @@
 import { useRequireAuth } from '@lib/hooks/useRequireAuth';
-// import { Aside } from '@components/aside/aside';
-// import { AsideTrends } from '@components/aside/aside-trends';
-// import { Suggestions } from '@components/aside/suggestions';
+import { Aside } from '@components/aside/aside';
+import { AsideTrends } from '@components/aside/aside-trends';
+import { Suggestions } from '@components/aside/suggestions';
 import { Placeholder } from '@components/common/placeholder';
 import type { ReactNode } from 'react';
 
@@ -21,10 +21,10 @@ export function HomeLayout({ children }: LayoutProps): JSX.Element {
   return (
     <>
       {children}
-      {/* <Aside>
+      <Aside>
         <AsideTrends />
         <Suggestions />
-      </Aside> */}
+      </Aside>
     </>
   );
 }
@@ -33,10 +33,10 @@ export function UserLayout({ children }: LayoutProps): JSX.Element {
   return (
     <>
       {children}
-      {/* <Aside>
+      <Aside>
         <Suggestions />
         <AsideTrends />
-      </Aside> */}
+      </Aside>
     </>
   );
 }
@@ -45,9 +45,9 @@ export function TrendsLayout({ children }: LayoutProps): JSX.Element {
   return (
     <>
       {children}
-      {/* <Aside>
+      <Aside>
         <Suggestions />
-      </Aside> */}
+      </Aside>
     </>
   );
 }
@@ -56,9 +56,9 @@ export function PeopleLayout({ children }: LayoutProps): JSX.Element {
   return (
     <>
       {children}
-      {/* <Aside>
+      <Aside>
         <AsideTrends />
-      </Aside> */}
+      </Aside>
     </>
   );
 }
