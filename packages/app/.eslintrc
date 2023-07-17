@@ -6,6 +6,8 @@
       "import/no-unassigned-import": "off",
       "prettier/prettier": "off",
       "@typescript-eslint/no-shadow": "off",
-      "jsdoc/require-jsdoc": "off"
+      "jsdoc/require-jsdoc": "off",
+      "no-bitwise": "off", // src/lib/random.ts
+      "require-unicode-regexp": "off" // auth-context.ts
     }
   }
