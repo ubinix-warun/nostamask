@@ -1,11 +1,11 @@
 import { useRef } from 'react';
+import type { ReactNode, ChangeEvent } from 'react';
 import cn from 'clsx';
 import { MainHeader } from '@components/home/main-header';
 import { Button } from '@components/ui/button';
 import { HeroIcon } from '@components/ui/hero-icon';
 import { NextImage } from '@components/ui/next-image';
 import { ToolTip } from '@components/ui/tooltip';
-import type { ReactNode, ChangeEvent } from 'react';
 import type { User } from '@lib/types/user';
 
 type EditProfileModalProps = Pick<
@@ -41,8 +41,11 @@ export function EditProfileModal({
   const profileInputFileRef = useRef<HTMLInputElement>(null);
 
   const handleClick = (type: 'cover' | 'profile') => (): void => {
-    if (type === 'cover') coverInputFileRef.current?.click();
-    else profileInputFileRef.current?.click();
+    if (type === 'cover') {
+      coverInputFileRef.current?.click();
+    } else { 
+      profileInputFileRef.current?.click();
+    }
   };
 
   return (

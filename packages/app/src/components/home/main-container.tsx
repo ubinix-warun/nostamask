@@ -1,5 +1,5 @@
-import cn from 'clsx';
 import type { ReactNode } from 'react';
+import cn from 'clsx';
 
 type MainContainerProps = {
   children: ReactNode;

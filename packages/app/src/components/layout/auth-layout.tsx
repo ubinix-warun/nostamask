@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useAuth } from '@lib/context/auth-context';
 import { sleep } from '@lib/utils';
 import { Placeholder } from '@components/common/placeholder';
-import type { LayoutProps } from './common-layout';
+import type { LayoutProps } from '@components/layout/common-layout';
 
 export function AuthLayout({ children }: LayoutProps): JSX.Element {
   const [pending, setPending] = useState(true);
@@ -17,18 +17,20 @@ export function AuthLayout({ children }: LayoutProps): JSX.Element {
 
       if (user) {
         await sleep(500);
-        void replace('/home');
+        replace('/home');
       } else if (!loading) {
         await sleep(500);
         setPending(false);
       }
     };
 
-    void checkLogin();
+    checkLogin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, loading]);
 
-  if (loading || pending) return <Placeholder />;
+  if (loading || pending) {
+    return <Placeholder />;
+  }
 
   return <>{children}</>;
 }

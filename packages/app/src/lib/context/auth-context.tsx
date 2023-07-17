@@ -35,6 +35,7 @@ type AuthContext = {
   userBookmarks: Bookmark[] | null;
   signOut: () => Promise<void>;
   signInWithGoogle: () => Promise<void>;
+  connectWithSnap: () => Promise<void>;
 };
 
 export const AuthContext = createContext<AuthContext | null>(null);
@@ -98,6 +99,43 @@ export function AuthContextProvider({
     }
   };
 
+  const connectWithSnap = async (): Promise<void> => {
+    try {
+
+      const userData: User = {
+        id: "123456",
+        bio: "BBB.",
+        name: "Sato J." as string,
+        theme: null,
+        accent: null,
+        website: null,
+        location: null,
+        photoURL: "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/12700727-e571-4400-b2de-4710cd56e9ce/d2csxgk-016acaea-d716-48af-a75f-3cea03f7261f.png/v1/fill/w_150,h_150,q_80,strp/rurouni_kenshin_avatar_9_by_darkfirextreme_d2csxgk-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTUwIiwicGF0aCI6IlwvZlwvMTI3MDA3MjctZTU3MS00NDAwLWIyZGUtNDcxMGNkNTZlOWNlXC9kMmNzeGdrLTAxNmFjYWVhLWQ3MTYtNDhhZi1hNzVmLTNjZWEwM2Y3MjYxZi5wbmciLCJ3aWR0aCI6Ijw9MTUwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0._ALpTgXbXQo8edBTFp_DqA_wMHdnmD9hRWuw9cdJDZk" as string,
+        username: "sato-j",
+        verified: false,
+        following: [],
+        followers: [],
+        // createdAt: serverTimestamp(),
+        // updatedAt: null,
+        totalTweets: 0,
+        totalPhotos: 0,
+        pinnedTweet: null,
+        coverPhotoURL: null
+      };
+  
+      setUser(userData);
+      setLoading(false);
+      setUserBookmarks([]);
+  
+      // setUser(null);
+      // setLoading(false);
+      // setUserBookmarks(null);
+
+    } catch (error) {
+      setError(error as Error);
+    }
+  };
+
   const signOut = async (): Promise<void> => {
     try {
       // await signOutFirebase(auth);
@@ -117,7 +155,8 @@ export function AuthContextProvider({
     randomSeed,
     userBookmarks,
     signOut,
-    signInWithGoogle
+    signInWithGoogle,
+    connectWithSnap
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -1,4 +1,5 @@
-import { AnimatePresence } from 'framer-motion';
+import type { ReactElement, ReactNode } from 'react';
+// import { AnimatePresence } from 'framer-motion';
 // import { where, orderBy } from 'firebase/firestore';
 import { useWindow } from '@lib/context/window-context';
 // import { useInfiniteScroll } from '@lib/hooks/useInfiniteScroll';
@@ -13,7 +14,6 @@ import { MainHeader } from '@components/home/main-header';
 // import { Tweet } from '@components/tweet/tweet';
 // import { Loading } from '@components/ui/loading';
 // import { Error } from '@components/ui/error';
-import type { ReactElement, ReactNode } from 'react';
 
 export default function Home(): JSX.Element {
   const { isMobile } = useWindow();

@@ -1,9 +1,9 @@
+import type { ReactNode } from 'react';
 import cn from 'clsx';
 import { Button } from '@components/ui/button';
 import { HeroIcon } from '@components/ui/hero-icon';
 import { ToolTip } from '@components/ui/tooltip';
-// import { MobileSidebar } from '@components/sidebar/mobile-sidebar';
-import type { ReactNode } from 'react';
+import { MobileSidebar } from '@components/sidebar/mobile-sidebar';
 import type { IconName } from '@components/ui/hero-icon';
 
 type HomeHeaderProps = {
@@ -52,7 +52,7 @@ export function MainHeader({
       )}
       {title && (
         <div className='flex gap-8'>
-          {/* {useMobileSidebar && <MobileSidebar />} */}
+          {useMobileSidebar && <MobileSidebar />}
           <h2 className='text-xl font-bold' key={title}>
             {title}
           </h2>

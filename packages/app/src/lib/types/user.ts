@@ -1,4 +1,4 @@
-import type { Theme, Accent } from './theme';
+import type { Theme, Accent } from '@lib/types/theme';
 // import type { Timestamp, FirestoreDataConverter } from 'firebase/firestore';
 
 export type User = {

@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import { useState, useEffect, createContext, useContext } from 'react';
-// import { updateUserTheme } from '@lib/firebase/utils';
-import { useAuth } from './auth-context';
 import type { ReactNode, ChangeEvent } from 'react';
+// import { updateUserTheme } from '@lib/firebase/utils';
+import { useAuth } from '@lib/context/auth-context';
 import type { Theme, Accent } from '@lib/types/theme';
 
 type ThemeContext = {
@@ -50,11 +50,15 @@ export function ThemeContextProvider({
   const { id: userId, theme: userTheme, accent: userAccent } = user ?? {};
 
   useEffect(() => {
-    if (user && userTheme) setTheme(userTheme);
+    if (user && userTheme) { 
+      setTheme(userTheme);
+    }
   }, [userId, userTheme]);
 
   useEffect(() => {
-    if (user && userAccent) setAccent(userAccent);
+    if (user && userAccent) { 
+      setAccent(userAccent);
+    }
   }, [userId, userAccent]);
 
   useEffect(() => {
@@ -62,8 +66,11 @@ export function ThemeContextProvider({
       const root = document.documentElement;
       const targetTheme = theme === 'dim' ? 'dark' : theme;
 
-      if (targetTheme === 'dark') root.classList.add('dark');
-      else root.classList.remove('dark');
+      if (targetTheme === 'dark') { 
+        root.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+      }
 
       root.style.setProperty('--main-background', `var(--${theme}-background)`);
 

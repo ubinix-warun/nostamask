@@ -13,7 +13,9 @@ export function ToolTip({
   className,
   groupInner
 }: ToolTipProps): JSX.Element | null {
-  if (modal) return null;
+  if (modal) {
+    return null;
+  }
 
   return (
     <div

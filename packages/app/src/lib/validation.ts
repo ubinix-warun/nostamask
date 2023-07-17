@@ -1,5 +1,5 @@
-import { getRandomId } from './random';
-import type { FilesWithId, FileWithId, ImagesPreview } from './types/file';
+import { getRandomId } from '@lib/random';
+import type { FilesWithId, FileWithId, ImagesPreview } from '@lib/types/file';
 
 const IMAGE_EXTENSIONS = [
   'apng',
@@ -33,14 +33,25 @@ export function isValidUsername(
   username: string,
   value: string
 ): string | null {
-  if (value.length < 4)
+  if (value.length < 4) {
     return 'Your username must be longer than 4 characters.';
-  if (value.length > 15)
+  }
+
+  if (value.length > 15) {
     return 'Your username must be shorter than 15 characters.';
-  if (!/^\w+$/i.test(value))
+  }
+
+  if (!/^\w+$/i.test(value)) {
     return "Your username can only contain letters, numbers and '_'.";
-  if (!/[a-z]/i.test(value)) return 'Include a non-number character.';
-  if (value === username) return 'This is your current username.';
+  }
+
+  if (!/[a-z]/i.test(value)) {
+    return 'Include a non-number character.';
+  }
+  
+  if (value === username) {
+    return 'This is your current username.';
+  }
 
   return null;
 }
@@ -54,7 +65,9 @@ export function getImagesData(
   files: FileList | null,
   currentFiles?: number
 ): ImagesData | null {
-  if (!files || !files.length) return null;
+  if (!files || !files.length) { 
+    return null;
+  }
 
   const singleEditingMode = currentFiles === undefined;
 
@@ -64,7 +77,9 @@ export function getImagesData(
       ? Array.from(files).filter(({ name, size }) => isValidImage(name, size))
       : null;
 
-  if (!rawImages || !rawImages.length) return null;
+  if (!rawImages || !rawImages.length) { 
+    return null;
+  }
 
   const imagesId = rawImages.map(({ name }) => {
     const randomId = getRandomId();

@@ -1,9 +1,9 @@
+import type { ReactNode } from 'react';
 import { useRequireAuth } from '@lib/hooks/useRequireAuth';
 import { Aside } from '@components/aside/aside';
 import { AsideTrends } from '@components/aside/aside-trends';
 import { Suggestions } from '@components/aside/suggestions';
 import { Placeholder } from '@components/common/placeholder';
-import type { ReactNode } from 'react';
 
 export type LayoutProps = {
   children: ReactNode;
@@ -12,7 +12,9 @@ export type LayoutProps = {
 export function ProtectedLayout({ children }: LayoutProps): JSX.Element {
   const user = useRequireAuth();
 
-  if (!user) return <Placeholder />;
+  if (!user) {
+    return <Placeholder />;
+  }
 
   return <>{children}</>;
 }

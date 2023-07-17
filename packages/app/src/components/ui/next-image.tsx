@@ -1,7 +1,7 @@
 import { useState } from 'react';
+import type { ReactNode } from 'react';
 import Image from 'next/image';
 import cn from 'clsx';
-import type { ReactNode } from 'react';
 import type { ImageProps } from 'next/image';
 
 type NextImageProps = {
@@ -14,11 +14,6 @@ type NextImageProps = {
   blurClassName?: string;
 } & ImageProps;
 
-/**
- *
- * @description Must set width and height, if not add layout='fill'
- * @param useSkeleton add background with pulse animation, don't use it if image is transparent
- */
 export function NextImage({
   src,
   alt,

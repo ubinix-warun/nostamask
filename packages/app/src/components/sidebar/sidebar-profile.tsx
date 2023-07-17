@@ -8,10 +8,10 @@ import { ActionModal } from '@components/modal/action-modal';
 import { Button } from '@components/ui/button';
 import { HeroIcon } from '@components/ui/hero-icon';
 import { CustomIcon } from '@components/ui/custom-icon';
-// import { UserAvatar } from '@components/user/user-avatar';
-// import { UserName } from '@components/user/user-name';
-// import { UserUsername } from '@components/user/user-username';
-import { variants } from './more-settings';
+import { UserAvatar } from '@components/user/user-avatar';
+import { UserName } from '@components/user/user-name';
+import { UserUsername } from '@components/user/user-username';
+import { variants } from '@components/sidebar/more-settings';
 import type { User } from '@lib/types/user';
 
 export function SidebarProfile(): JSX.Element {
@@ -49,10 +49,10 @@ export function SidebarProfile(): JSX.Element {
               )}
             >
               <div className='flex gap-3 truncate'>
-                {/* <UserAvatar src={photoURL} alt={name} size={40} /> */}
+                <UserAvatar src={photoURL} alt={name} size={40} />
                 <div className='hidden truncate text-start leading-5 xl:block'>
-                  {/* <UserName name={name} className='start' verified={verified} /> */}
-                  {/* <UserUsername username={username} disableLink /> */}
+                  <UserName name={name} className='start' verified={verified} />
+                  <UserUsername username={username} disableLink />
                 </div>
               </div>
               <HeroIcon
@@ -75,10 +75,10 @@ export function SidebarProfile(): JSX.Element {
                     disabled
                   >
                     <div className='flex items-center gap-3 truncate'>
-                      {/* <UserAvatar src={photoURL} alt={name} /> */}
+                      <UserAvatar src={photoURL} alt={name} />
                       <div className='truncate'>
-                        {/* <UserName name={name} verified={verified} /> */}
-                        {/* <UserUsername username={username} disableLink /> */}
+                        <UserName name={name} verified={verified} />
+                        <UserUsername username={username} disableLink />
                       </div>
                     </div>
                     <i>

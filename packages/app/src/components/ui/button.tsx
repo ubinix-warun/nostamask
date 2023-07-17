@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
-import cn from 'clsx';
-import { Loading } from './loading';
 import type { ComponentPropsWithRef } from 'react';
+import cn from 'clsx';
+import { Loading } from '@components/ui/loading';
 
 type ButtonProps = ComponentPropsWithRef<'button'> & {
   loading?: boolean;

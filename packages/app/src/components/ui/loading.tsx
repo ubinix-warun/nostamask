@@ -1,5 +1,5 @@
 import cn from 'clsx';
-import { CustomIcon } from './custom-icon';
+import { CustomIcon } from '@components/ui/custom-icon';
 
 type LoadingProps = {
   className?: string;

@@ -2,16 +2,16 @@ import Link from 'next/link';
 import { useAuth } from '@lib/context/auth-context';
 import { useModal } from '@lib/hooks/useModal';
 import { Button } from '@components/ui/button';
-// import { UserAvatar } from '@components/user/user-avatar';
+import { UserAvatar } from '@components/user/user-avatar';
 import { NextImage } from '@components/ui/next-image';
-// import { UserName } from '@components/user/user-name';
-// import { UserUsername } from '@components/user/user-username';
+import { UserName } from '@components/user/user-name';
+import { UserUsername } from '@components/user/user-username';
 import { MainHeader } from '@components/home/main-header';
 import { MobileSidebarLink } from '@components/sidebar/mobile-sidebar-link';
 import { HeroIcon } from '@components/ui/hero-icon';
-import { Modal } from './modal';
-import { ActionModal } from './action-modal';
-import { DisplayModal } from './display-modal';
+import { Modal } from '@components/modal/modal';
+import { ActionModal } from '@components/modal/action-modal';
+import { DisplayModal } from '@components/modal/display-modal';
 import type { NavLink } from '@components/sidebar/sidebar';
 import type { User } from '@lib/types/user';
 
@@ -152,7 +152,7 @@ export function MobileSidebarModal({
           </a>
         </Link>
         <div className='mb-8 ml-2 -mt-4'>
-          {/* <UserAvatar
+          <UserAvatar
             className='absolute -translate-y-1/2 bg-main-background p-1 hover:brightness-100
                        [&>figure>span]:[transition:200ms]
                        [&:hover>figure>span]:brightness-75'
@@ -160,17 +160,17 @@ export function MobileSidebarModal({
             src={photoURL}
             alt={name}
             size={60}
-          /> */}
+          />
         </div>
         <div className='flex flex-col gap-4 rounded-xl bg-main-sidebar-background p-4'>
           <div className='flex flex-col'>
-            {/* <UserName
+            <UserName
               name={name}
               username={username}
               verified={verified}
               className='-mb-1'
             />
-            <UserUsername username={username} /> */}
+            <UserUsername username={username} />
           </div>
           <div className='text-secondary flex gap-4'>
             {allStats.map(([id, label, stat]) => (

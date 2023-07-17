@@ -2,15 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import type { VariantLabels } from 'framer-motion';
 import cn from 'clsx';
-import { preventBubbling } from '@lib/utils';
 import { Button } from '@components/ui/button';
 import { HeroIcon } from '@components/ui/hero-icon';
 import { Loading } from '@components/ui/loading';
-import { backdrop, modal } from './modal';
-import type { VariantLabels } from 'framer-motion';
+import { backdrop, modal } from '@components/modal/modal';
 import type { ImageData } from '@lib/types/file';
 import type { IconName } from '@components/ui/hero-icon';
+import { preventBubbling } from '@lib/utils';
 
 type ImageModalProps = {
   tweet?: boolean;
@@ -57,7 +57,9 @@ export function ImageModal({
   }, [...(tweet && previewCount > 1 ? [src] : [])]);
 
   useEffect(() => {
-    if (!requireArrows) return;
+    if (!requireArrows) {
+      return;
+    }
 
     const handleKeyDown = ({ key }: KeyboardEvent): void => {
       const callback =
@@ -67,7 +69,9 @@ export function ImageModal({
           ? handleNextIndex('next')
           : null;
 
-      if (callback) callback();
+      if (callback) { 
+        callback();
+      }
     };
 
     document.addEventListener('keydown', handleKeyDown);

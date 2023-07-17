@@ -1,10 +1,10 @@
+import type { Variants } from 'framer-motion';
 import { useAuth } from '@lib/context/auth-context';
 import { useModal } from '@lib/hooks/useModal';
 import { Button } from '@components/ui/button';
 import { Modal } from '@components/modal/modal';
 import { MobileSidebarModal } from '@components/modal/mobile-sidebar-modal';
-// import { UserAvatar } from '@components/user/user-avatar';
-import type { Variants } from 'framer-motion';
+import { UserAvatar } from '@components/user/user-avatar';
 import type { User } from '@lib/types/user';
 
 const variant: Variants = {
@@ -36,7 +36,7 @@ export function MobileSidebar(): JSX.Element {
         <MobileSidebarModal {...(user as User)} closeModal={closeModal} />
       </Modal>
       <Button className='accent-tab p-0 xs:hidden' onClick={openModal}>
-        {/* <UserAvatar src={photoURL} alt={name} size={30} /> */}
+        <UserAvatar src={photoURL} alt={name} size={30} />
       </Button>
     </>
   );

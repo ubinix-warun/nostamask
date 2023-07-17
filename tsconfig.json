@@ -10,5 +10,8 @@
     "strict": true,
     "target": "ES2017"
   },
+  // "paths": {
+  //   "@*": ["./packages/app/src/*"]
+  // },
   "exclude": ["**/__snapshots__/**", "**/test/**", "**/*.test.ts"]
 }

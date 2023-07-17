@@ -18,7 +18,9 @@ const Icons = {
   TwitterIcon,
   FeatherIcon,
   SpinnerIcon,
-  TriangleIcon
+  TriangleIcon,
+  // MetaMaskIcon,
+  // PoweredByIcon
 };
 
 export function CustomIcon({

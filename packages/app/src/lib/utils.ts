@@ -8,8 +8,13 @@ export function preventBubbling(
   return (e: SyntheticEvent): void => {
     e.stopPropagation();
 
-    if (!noPreventDefault) e.preventDefault();
-    if (callback) callback();
+    if (!noPreventDefault) {
+      e.preventDefault();
+    }
+    
+    if (callback) {
+      callback();
+    }
   };
 }
 

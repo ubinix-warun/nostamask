@@ -51,7 +51,7 @@ export function InputThemeRadio({
   const { textColor, backgroundColor, iconBorderColor, hoverBackgroundColor } =
     inputThemeData[type];
 
-  const isChecked = type == theme;
+  const isChecked = type === theme;
 
   return (
     <label

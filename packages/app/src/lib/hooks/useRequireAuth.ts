@@ -8,7 +8,10 @@ export function useRequireAuth(redirectUrl?: string): User | null {
   const { replace } = useRouter();
 
   useEffect(() => {
-    if (!loading && !user) void replace(redirectUrl ?? '/');
+    if (!loading && !user) {
+      replace(redirectUrl ?? '/');
+    }
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, loading]);
 

@@ -2,12 +2,21 @@
     "extends": "next",
     "rules": {
       "react/no-unescaped-entities": "off",
-      "@next/next/no-page-custom-font": "off",
       "import/no-unassigned-import": "off",
+      "import/no-extraneous-dependencies": "off",
+      "@next/next/no-page-custom-font": "off",
       "prettier/prettier": "off",
-      "@typescript-eslint/no-shadow": "off",
       "jsdoc/require-jsdoc": "off",
+      "jsdoc/require-param": "off",
+      "jsdoc/check-param-names": "off",
       "no-bitwise": "off", // src/lib/random.ts
-      "require-unicode-regexp": "off" // auth-context.ts
+      "require-unicode-regexp": "off", // auth-context.ts
+      "@typescript-eslint/no-shadow": "off",
+      "@typescript-eslint/no-unused-vars": "off", // p3
+      "@typescript-eslint/prefer-optional-chain": "off",
+      "consistent-return": "off",
+      "no-implicit-coercion": "off",
+      "no-nested-ternary": "off",
+      "no-unneeded-ternary": "off"
     }
   }

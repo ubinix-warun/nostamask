@@ -1,10 +1,10 @@
 import { SWRConfig } from 'swr';
 import { Toaster } from 'react-hot-toast';
+import type { DefaultToastOptions } from 'react-hot-toast';
 import { fetchJSON } from '@lib/fetch';
 import { WindowContextProvider } from '@lib/context/window-context';
 import { Sidebar } from '@components/sidebar/sidebar';
-import type { DefaultToastOptions } from 'react-hot-toast';
-import type { LayoutProps } from './common-layout';
+import type { LayoutProps } from '@components/layout/common-layout';
 
 const toastOptions: DefaultToastOptions = {
   style: {

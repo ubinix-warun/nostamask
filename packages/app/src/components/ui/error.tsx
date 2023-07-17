@@ -1,4 +1,4 @@
-import { HeroIcon } from './hero-icon';
+import { HeroIcon } from '@components/ui/hero-icon';
 
 type ErrorProps = {
   message?: string;
