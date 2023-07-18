@@ -17,6 +17,8 @@
       "consistent-return": "off",
       "no-implicit-coercion": "off",
       "no-nested-ternary": "off",
-      "no-unneeded-ternary": "off"
+      "no-unneeded-ternary": "off",
+      "react-hooks/rules-of-hooks": "off",
+      "@typescript-eslint/consistent-type-definitions": "off"
     }
   }

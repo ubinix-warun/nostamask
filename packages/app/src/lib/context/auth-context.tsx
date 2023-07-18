@@ -34,7 +34,7 @@ type AuthContext = {
   randomSeed: string;
   userBookmarks: Bookmark[] | null;
   signOut: () => Promise<void>;
-  signInWithGoogle: () => Promise<void>;
+  // signInWithGoogle: () => Promise<void>;
   connectWithSnap: () => Promise<void>;
 };
 
@@ -54,31 +54,6 @@ export function AuthContextProvider({
 
   useEffect(() => {
 
-    const userData: User = {
-      id: "123456",
-      bio: null,
-      name: "" as string,
-      theme: null,
-      accent: null,
-      website: null,
-      location: null,
-      photoURL: "" as string,
-      username: "",
-      verified: false,
-      following: [],
-      followers: [],
-      // createdAt: serverTimestamp(),
-      // updatedAt: null,
-      totalTweets: 0,
-      totalPhotos: 0,
-      pinnedTweet: null,
-      coverPhotoURL: null
-    };
-
-    // setUser(userData);
-    // setLoading(false);
-    // setUserBookmarks([]);
-
     setUser(null);
     setLoading(false);
     setUserBookmarks(null);
@@ -90,14 +65,14 @@ export function AuthContextProvider({
     
   }, [user?.id]);
 
-  const signInWithGoogle = async (): Promise<void> => {
-    try {
-      // const provider = new GoogleAuthProvider();
-      // await signInWithPopup(auth, provider);
-    } catch (error) {
-      setError(error as Error);
-    }
-  };
+  // const signInWithGoogle = async (): Promise<void> => {
+  //   try {
+  //     // const provider = new GoogleAuthProvider();
+  //     // await signInWithPopup(auth, provider);
+  //   } catch (error) {
+  //     setError(error as Error);
+  //   }
+  // };
 
   const connectWithSnap = async (): Promise<void> => {
     try {
@@ -155,7 +130,7 @@ export function AuthContextProvider({
     randomSeed,
     userBookmarks,
     signOut,
-    signInWithGoogle,
+    // signInWithGoogle,
     connectWithSnap
   };
 

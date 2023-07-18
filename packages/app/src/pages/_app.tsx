@@ -7,6 +7,7 @@ import type { AppProps } from 'next/app';
 import { AuthContextProvider } from '@lib/context/auth-context';
 import { ThemeContextProvider } from '@lib/context/theme-context';
 import { AppHead } from '@components/common/app-head';
+import { MetaMaskProvider } from '@lib/context/metamask-context';
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -27,7 +28,9 @@ export default function App({
       <AppHead />
       <AuthContextProvider>
         <ThemeContextProvider>
+        <MetaMaskProvider>
           {getLayout(<Component {...pageProps} />)}
+        </MetaMaskProvider>
         </ThemeContextProvider>
       </AuthContextProvider>
     </>
