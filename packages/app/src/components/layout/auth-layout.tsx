@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '@lib/context/auth-context';
 import { sleep } from '@lib/utils';
@@ -9,6 +9,7 @@ export function AuthLayout({ children }: LayoutProps): JSX.Element {
   const [pending, setPending] = useState(true);
 
   const { user, loading } = useAuth();
+
   const { replace } = useRouter();
 
   useEffect(() => {
@@ -31,6 +32,6 @@ export function AuthLayout({ children }: LayoutProps): JSX.Element {
   if (loading || pending) {
     return <Placeholder />;
   }
-
+  
   return <>{children}</>;
 }

@@ -26,13 +26,13 @@ export default function App({
   return (
     <>
       <AppHead />
+      <MetaMaskProvider>
       <AuthContextProvider>
         <ThemeContextProvider>
-        <MetaMaskProvider>
           {getLayout(<Component {...pageProps} />)}
-        </MetaMaskProvider>
         </ThemeContextProvider>
       </AuthContextProvider>
+      </MetaMaskProvider>
     </>
   );
 }

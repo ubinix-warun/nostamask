@@ -61,28 +61,17 @@ export function LoginMain(): JSX.Element {
             Join Twitter today.
           </h2> */}
           {state.error && (
-            // <h2 className='hidden text-xl lg:block lg:text-3xl'>
             <p
               className='inner:custom-underline inner:custom-underline text-center text-xs
                       text-light-secondary inner:text-accent-blue dark:text-dark-secondary'>
               <b>An error happened:</b>{state.error.message}
             </p>
-            // </h2>
           )}
         </div>
         <div className='flex max-w-xs flex-col gap-6 [&_button]:py-2'>
           <div className='grid gap-3 font-bold'>
 
             {!state.isFlask && (
-              // <Card
-              //   content={{
-              //     title: 'Install',
-              //     description:
-              //       'Snaps is pre-release software only available in MetaMask Flask, a canary distribution for developers with access to upcoming features.',
-              //     button: <InstallFlaskButton />,
-              //   }}
-              //   fullWidth
-              // />
               <>
                   <Button
                     className='flex justify-center gap-2 border border-light-line-reply font-bold text-light-primary transition
@@ -107,20 +96,6 @@ export function LoginMain(): JSX.Element {
               </>
             )}
             {!state.installedSnap && (
-              // <Card
-              //   content={{
-              //     title: 'Connect',
-              //     description:
-              //       'Get started by connecting to and installing the example snap.',
-              //     button: (
-              //       <ConnectButton
-              //         onClick={handleConnectClick}
-              //         disabled={!state.isFlask}
-              //       />
-              //     ),
-              //   }}
-              //   disabled={!state.isFlask}
-              // />
               <>
                 <Button
                   className='flex justify-center gap-2 border border-light-line-reply font-bold text-light-primary transition

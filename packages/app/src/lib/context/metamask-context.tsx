@@ -114,10 +114,7 @@ export const MetaMaskProvider = ({ children }: { children: ReactNode }) => {
         });
       }, 10000);
     }
-
-
-    console.log("state.error?");
-
+    
     return () => {
       if (timeoutId) {
         window.clearTimeout(timeoutId);

@@ -24,7 +24,9 @@ import { getRandomId } from '@lib/random';
 // import type { WithFieldValue } from 'firebase/firestore';
 import type { User } from '@lib/types/user';
 import type { Bookmark } from '@lib/types/bookmark';
+import { sleep } from '@lib/utils';
 // import type { Stats } from '@lib/types/stats';
+import { MetaMaskContext } from '@lib/context/metamask-context';
 
 type AuthContext = {
   user: User | null;
@@ -52,6 +54,8 @@ export function AuthContextProvider({
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const [state] = useContext(MetaMaskContext);
+
   useEffect(() => {
 
     setUser(null);
@@ -59,6 +63,20 @@ export function AuthContextProvider({
     setUserBookmarks(null);
 
   }, []);
+
+  useEffect(() => {
+
+    if(state.isFlask && state.installedSnap !== undefined) {
+      if(state.installedSnap.enabled) {
+
+        sleep(500);
+        connectWithSnap();
+      }
+    }
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
+
 
   useEffect(() => {
     console.log(user?.id);
