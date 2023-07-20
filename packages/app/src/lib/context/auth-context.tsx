@@ -26,7 +26,13 @@ import type { User } from '@lib/types/user';
 import type { Bookmark } from '@lib/types/bookmark';
 import { sleep } from '@lib/utils';
 // import type { Stats } from '@lib/types/stats';
-import { MetaMaskContext } from '@lib/context/metamask-context';
+import { MetaMaskContext, MetamaskActions } from '@lib/context/metamask-context';
+import {
+  connectSnap,
+  getSnap
+} from '@lib/utils/snap';
+import { getAddress, getPublicKey } from '@lib/utils/snap';
+import {nip19} from 'nostr-tools'
 
 type AuthContext = {
   user: User | null;
@@ -37,6 +43,7 @@ type AuthContext = {
   userBookmarks: Bookmark[] | null;
   signOut: () => Promise<void>;
   // signInWithGoogle: () => Promise<void>;
+  openFlaskFoxWebSite: () => Promise<void>;
   connectWithSnap: () => Promise<void>;
 };
 
@@ -54,7 +61,7 @@ export function AuthContextProvider({
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const [state] = useContext(MetaMaskContext);
+  const [state, dispatch] = useContext(MetaMaskContext);
 
   useEffect(() => {
 
@@ -70,7 +77,66 @@ export function AuthContextProvider({
       if(state.installedSnap.enabled) {
 
         sleep(500);
-        connectWithSnap();
+
+        (async () => {
+          const addressResponse = await getAddress();
+          if (addressResponse) {
+            // setAddress(addressResponse);
+
+            console.log(addressResponse);
+
+          }
+
+          const pubkeyResponse = await getPublicKey();
+          if (pubkeyResponse) {
+            // setAddress(addressResponse);
+
+            console.log(pubkeyResponse);
+            
+          }
+
+          const npub = nip19.npubEncode(pubkeyResponse.slice(2)); // slice 0x
+
+
+          try {
+
+            const userData: User = {
+              id: npub,
+              bio: "BBB.",
+              name: "Sato J." as string,
+              theme: null,
+              accent: null,
+              website: null,
+              location: null,
+              photoURL: "https://robohash.org/"+npub as string,
+              username: npub,
+              verified: false,
+              following: [],
+              followers: [],
+              // createdAt: serverTimestamp(),
+              // updatedAt: null,
+              totalTweets: 0,
+              totalPhotos: 0,
+              pinnedTweet: null,
+              coverPhotoURL: null
+            };
+        
+            setUser(userData);
+            setLoading(false);
+            setUserBookmarks([]);
+        
+            // setUser(null);
+            // setLoading(false);
+            // setUserBookmarks(null);
+      
+          } catch (error) {
+            setError(error as Error);
+          }
+
+        })();
+
+
+
       }
     }
     
@@ -91,42 +157,25 @@ export function AuthContextProvider({
   //     setError(error as Error);
   //   }
   // };
+  
+  const openFlaskFoxWebSite = async (): Promise<void> => {
+    window.open("https://metamask.io/flask/", "_blank");
+  }
 
   const connectWithSnap = async (): Promise<void> => {
+
     try {
+      await connectSnap();
+      const installedSnap = await getSnap();
 
-      const userData: User = {
-        id: "123456",
-        bio: "BBB.",
-        name: "Sato J." as string,
-        theme: null,
-        accent: null,
-        website: null,
-        location: null,
-        photoURL: "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/12700727-e571-4400-b2de-4710cd56e9ce/d2csxgk-016acaea-d716-48af-a75f-3cea03f7261f.png/v1/fill/w_150,h_150,q_80,strp/rurouni_kenshin_avatar_9_by_darkfirextreme_d2csxgk-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTUwIiwicGF0aCI6IlwvZlwvMTI3MDA3MjctZTU3MS00NDAwLWIyZGUtNDcxMGNkNTZlOWNlXC9kMmNzeGdrLTAxNmFjYWVhLWQ3MTYtNDhhZi1hNzVmLTNjZWEwM2Y3MjYxZi5wbmciLCJ3aWR0aCI6Ijw9MTUwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0._ALpTgXbXQo8edBTFp_DqA_wMHdnmD9hRWuw9cdJDZk" as string,
-        username: "sato-j",
-        verified: false,
-        following: [],
-        followers: [],
-        // createdAt: serverTimestamp(),
-        // updatedAt: null,
-        totalTweets: 0,
-        totalPhotos: 0,
-        pinnedTweet: null,
-        coverPhotoURL: null
-      };
-  
-      setUser(userData);
-      setLoading(false);
-      setUserBookmarks([]);
-  
-      // setUser(null);
-      // setLoading(false);
-      // setUserBookmarks(null);
-
-    } catch (error) {
-      setError(error as Error);
+      dispatch({
+        type: MetamaskActions.SetInstalled,
+        payload: installedSnap,
+      });
+    } catch (e) {
+      dispatch({ type: MetamaskActions.SetError, payload: e });
     }
+
   };
 
   const signOut = async (): Promise<void> => {
@@ -149,6 +198,7 @@ export function AuthContextProvider({
     userBookmarks,
     signOut,
     // signInWithGoogle,
+    openFlaskFoxWebSite,
     connectWithSnap
   };
 

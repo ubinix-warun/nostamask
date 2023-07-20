@@ -1,18 +1,18 @@
 {
-  "version": "0.1.0",
-  "description": "An example Snap written in TypeScript.",
-  "proposedName": "TypeScript Example Snap",
+  "version": "0.1.1",
+  "description": "An NostaMask written in TypeScript.",
+  "proposedName": "NostaMask Snap",
   "repository": {
     "type": "git",
     "url": "https://github.com/MetaMask/template-snap-monorepo.git"
   },
   "source": {
-    "shasum": "xlzdQ1CbKhcYS4jVpmC2G8RQSS92nEiTo4Uobj2Semw=",
+    "shasum": "zo00dVH6giynPEZc2I6vwJrIN77N8pWU+FWmp/JyA9w=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
         "iconPath": "images/icon.svg",
-        "packageName": "snap",
+        "packageName": "nostamask-snap",
         "registry": "https://registry.npmjs.org/"
       }
     }
@@ -22,7 +22,17 @@
     "endowment:rpc": {
       "dapps": true,
       "snaps": false
-    }
+    },
+    "snap_getBip32Entropy": [
+      {
+        "path": [
+          "m",
+          "44'",
+          "3'"
+        ],
+        "curve": "secp256k1"
+      }
+    ]
   },
   "manifestVersion": "0.1"
 }

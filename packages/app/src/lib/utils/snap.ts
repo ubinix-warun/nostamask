@@ -1,5 +1,6 @@
 import { defaultSnapOrigin } from '@lib/env';
 import { GetSnapsResponse, Snap } from '@lib/types/snap';
+import type { RpcMethodTypes }  from '@snap/rpc-types';
 
 /**
  * Get the installed snaps in MetaMask.
@@ -50,16 +51,38 @@ export const getSnap = async (version?: string): Promise<Snap | undefined> => {
   }
 };
 
-/**
- * Invoke the "hello" method from the example snap.
- */
+export const isLocalSnap = (snapId: string) => snapId.startsWith('local:');
 
-export const sendHello = async () => {
-  await window.ethereum.request({
+type SnapRpcRequestParams<M extends keyof RpcMethodTypes> =
+  RpcMethodTypes[M]['input'] extends undefined
+    ? { snapRpcMethod: M }
+    : { snapRpcMethod: M; params: RpcMethodTypes[M]['input'] };
+
+const snapRpcRequest = async <M extends keyof RpcMethodTypes>(
+  args: SnapRpcRequestParams<M>,
+) => {
+  const result = await window.ethereum.request({
     method: 'wallet_invokeSnap',
-    params: { snapId: defaultSnapOrigin, request: { method: 'hello' } },
+    params: {
+      snapId: defaultSnapOrigin,
+      request: {
+        method: `nostr_${args.snapRpcMethod}`,
+        params: 'params' in args ? args.params : undefined,
+      },
+    },
+  });
+
+  return result as unknown as RpcMethodTypes[M]['output'];
+};
+
+export const getAddress = async () => {
+  return snapRpcRequest({
+    snapRpcMethod: 'getAddress',
   });
 };
 
-export const isLocalSnap = (snapId: string) => snapId.startsWith('local:');
-
+export const getPublicKey = async () => {
+  return snapRpcRequest({
+    snapRpcMethod: 'getPublicKey',
+  });
+};

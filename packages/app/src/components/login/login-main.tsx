@@ -2,33 +2,13 @@ import { useContext } from 'react';
 import { NextImage } from '@components/ui/next-image';
 import { CustomIcon } from '@components/ui/custom-icon';
 import { Button } from '@components/ui/button';
-import { MetaMaskContext, MetamaskActions } from '@lib/context/metamask-context';
-import {
-  connectSnap,
-  getSnap
-} from '@lib/utils/snap';
+import { useAuth } from '@lib/context/auth-context';
+import { MetaMaskContext } from '@lib/context/metamask-context';
 
 export function LoginMain(): JSX.Element {
 
-  const [state, dispatch] = useContext(MetaMaskContext);
-  
-  function openMetamaskFlask() {
-    window.open("https://metamask.io/flask/", "_blank");
-  }
-
-  const handleConnectClick = async () => {
-    try {
-      await connectSnap();
-      const installedSnap = await getSnap();
-
-      dispatch({
-        type: MetamaskActions.SetInstalled,
-        payload: installedSnap,
-      });
-    } catch (e) {
-      dispatch({ type: MetamaskActions.SetError, payload: e });
-    }
-  };
+  const { openFlaskFoxWebSite, connectWithSnap } = useAuth();
+  const [state] = useContext(MetaMaskContext);
 
   return (
     <main className='grid lg:grid-cols-[1fr,45vw]'>
@@ -77,7 +57,7 @@ export function LoginMain(): JSX.Element {
                     className='flex justify-center gap-2 border border-light-line-reply font-bold text-light-primary transition
                               hover:bg-[#e6e6e6] focus-visible:bg-[#e6e6e6] active:bg-[#cccccc] dark:border-0 dark:bg-white
                               dark:hover:brightness-90 dark:focus-visible:brightness-90 dark:active:brightness-75'
-                    onClick={openMetamaskFlask}
+                    onClick={openFlaskFoxWebSite}
                   >
                   {/* <FlaskFox /> Connect */}
                     <CustomIcon iconName='FlaskFox' />Install MetaMask Flask
@@ -101,7 +81,7 @@ export function LoginMain(): JSX.Element {
                   className='flex justify-center gap-2 border border-light-line-reply font-bold text-light-primary transition
                             hover:bg-[#e6e6e6] focus-visible:bg-[#e6e6e6] active:bg-[#cccccc] dark:border-0 dark:bg-white
                             dark:hover:brightness-90 dark:focus-visible:brightness-90 dark:active:brightness-75'
-                  onClick={handleConnectClick}
+                  onClick={connectWithSnap}
                   disabled={!state.isFlask}
                 >
                 {/* <FlaskFox /> Connect */}
