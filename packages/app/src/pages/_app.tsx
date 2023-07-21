@@ -8,6 +8,12 @@ import { AuthContextProvider } from '@lib/context/auth-context';
 import { ThemeContextProvider } from '@lib/context/theme-context';
 import { AppHead } from '@components/common/app-head';
 import { MetaMaskProvider } from '@lib/context/metamask-context';
+import { NostrProvider } from "nostr-react";
+
+const relayUrls = [
+  "wss://nostr-pub.wellorder.net",
+  "wss://relay.nostr.ch",
+];
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -29,7 +35,9 @@ export default function App({
       <MetaMaskProvider>
       <AuthContextProvider>
         <ThemeContextProvider>
+        <NostrProvider relayUrls={relayUrls} debug={true}>
           {getLayout(<Component {...pageProps} />)}
+        </NostrProvider>
         </ThemeContextProvider>
       </AuthContextProvider>
       </MetaMaskProvider>

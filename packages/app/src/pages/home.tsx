@@ -1,5 +1,5 @@
 import type { ReactElement, ReactNode } from 'react';
-// import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 // import { where, orderBy } from 'firebase/firestore';
 import { useWindow } from '@lib/context/window-context';
 // import { useInfiniteScroll } from '@lib/hooks/useInfiniteScroll';
@@ -14,6 +14,7 @@ import { MainHeader } from '@components/home/main-header';
 // import { Tweet } from '@components/tweet/tweet';
 // import { Loading } from '@components/ui/loading';
 // import { Error } from '@components/ui/error';
+import { useNostrEvents } from "nostr-react";
 
 export default function Home(): JSX.Element {
   const { isMobile } = useWindow();
@@ -23,6 +24,16 @@ export default function Home(): JSX.Element {
   //   [where('parent', '==', null), orderBy('createdAt', 'desc')],
   //   { includeUser: true, allowNull: true, preserve: true }
   // );
+
+  const { events } = useNostrEvents({
+    filter: {
+      authors: [
+        "9c2a6495b4e3de93f3e1cc254abe4078e17c64e5771abc676a5e205b62b1286c",
+      ],
+      since: 0,
+      kinds: [1],
+    },
+  });
 
   return (
     <MainContainer>
@@ -50,6 +61,16 @@ export default function Home(): JSX.Element {
             <LoadMore />
           </>
         )}
+      </section> */}
+      {/* <section className='mt-0.5 xs:mt-0'>
+      <>
+        <AnimatePresence mode='popLayout'>
+        {events.map((event) => (
+          <p key={event.id}>{event.created_at} posted: {event.content}</p>
+        ))}
+        </AnimatePresence>
+        <LoadMore />
+      </>
       </section> */}
     </MainContainer>
   );
