@@ -3,6 +3,7 @@ import { useAuth } from '@lib/context/auth-context';
 import { useWindow } from '@lib/context/window-context';
 import { useModal } from '@lib/hooks/useModal';
 import { Modal } from '@components/modal/modal';
+import { Input } from '@components/input/input';
 import { CustomIcon } from '@components/ui/custom-icon';
 import { Button } from '@components/ui/button';
 import { SidebarLink } from '@components/sidebar/sidebar-link';
@@ -78,7 +79,7 @@ export function Sidebar(): JSX.Element {
         open={open}
         closeModal={closeModal}
       >
-        {/* <Input modal closeModal={closeModal} /> */}
+        <Input modal closeModal={closeModal} />
       </Modal>
       <div
         className='fixed bottom-0 z-10 flex w-full flex-col justify-between border-t border-light-border 

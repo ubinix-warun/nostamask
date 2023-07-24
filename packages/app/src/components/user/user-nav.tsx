@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import cn from 'clsx';
 import { variants } from '@components/user/user-header';
-import { UserNavLink } from './user-nav-link';
+import { UserNavLink } from '@components/user/user-nav-link';
 
 type UserNavProps = {
   follow?: boolean;
