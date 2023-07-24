@@ -9,6 +9,7 @@ export type Tweet = {
   parent: { id: string; username: string } | null;
   userLikes: string[];
   createdBy: string;
+  createdAt: "";
   // createdAt: Timestamp;
   // updatedAt: Timestamp | null;
   userReplies: number;

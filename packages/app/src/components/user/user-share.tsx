@@ -7,7 +7,7 @@ import { siteURL } from '@lib/env';
 import { Button } from '@components/ui/button';
 import { HeroIcon } from '@components/ui/hero-icon';
 import { ToolTip } from '@components/ui/tooltip';
-// import { variants } from '@components/tweet/tweet-actions';
+import { variants } from '@components/tweet/tweet-actions';
 
 type UserShareProps = {
   username: string;
@@ -42,7 +42,7 @@ export function UserShare({ username }: UserShareProps): JSX.Element {
                 className='menu-container group absolute right-0 top-11 whitespace-nowrap
                            text-light-primary dark:text-dark-primary'
                 as={motion.div}
-                // {...variants}
+                {...variants}
                 static
               >
                 <Popover.Button
