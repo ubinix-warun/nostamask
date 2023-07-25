@@ -1,13 +1,13 @@
 {
-  "name": "nostamask-snap",
-  "version": "0.1.1",
+  "name": "fluffymask-snap",
+  "version": "0.4.1",
   "private": true,
-  "description": "The 'Hello, world!' of MetaMask Snaps, now written in TypeScript.",
+  "description": "An FluffyMask -- Bip32 Extended for Metamask.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MetaMask/template-snap-monorepo.git"
+    "url": "https://github.com/ubinix-warun/fluffymask.git"
   },
-  "license": "(MIT-0 OR Apache-2.0)",
+  "license": "MIT",
   "main": "src/index.ts",
   "files": [
     "dist/",
@@ -29,6 +29,7 @@
   "dependencies": {
     "@metamask/snaps-types": "^0.32.2",
     "@metamask/snaps-ui": "^0.32.2",
+    "bip32": "^4.0.0",
     "buffer": "^6.0.3"
   },
   "devDependencies": {
@@ -55,6 +56,7 @@
     "prettier-plugin-packagejson": "^2.2.11",
     "rimraf": "^3.0.2",
     "through2": "^4.0.2",
+    "tiny-secp256k1": "1.1.1",
     "ts-jest": "^29.1.0",
     "typescript": "^4.7.4"
   },

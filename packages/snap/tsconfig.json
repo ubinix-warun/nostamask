@@ -1,9 +1,9 @@
 {
-  // "compilerOptions": {
-  //   "paths": {
-  //     "@*": ["./src/*"]
-  //   }
-  // },
+  "compilerOptions": {
+    "paths": {
+      "$fluffymask/*": ["./src/*"]
+    }
+  },
   "extends": "../../tsconfig.json",
   "include": ["src"]
 }

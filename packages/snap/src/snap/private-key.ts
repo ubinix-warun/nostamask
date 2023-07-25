@@ -1,4 +1,9 @@
 import { SLIP10Node } from '@metamask/key-tree';
+import BIP32Factory from 'bip32';
+import * as ecc from 'tiny-secp256k1';
+import { BIP32Interface } from 'bip32';
+import { BitcoinNetwork, ScriptType } from './utils';
+import { Network, networks } from 'bitcoinjs-lib';
 
 /**
  * Derive the single account we're using for this snap.
@@ -38,3 +43,41 @@ export const getPublicKeyWithBip32 = async (): Promise<string> => {
   return nostrPublicKey;
 
 };
+
+export const pathMap: Record<ScriptType, string[]> = {
+  [ScriptType.P2PKH]: ['m', "44'", `0'`],
+  [ScriptType.P2SH_P2WPKH]: ['m', "49'", `0'`],
+  [ScriptType.P2WPKH]: ['m', "84'", `0'`]
+}
+
+export const CRYPTO_CURVE = "secp256k1";
+export const trimHexPrefix = (key: string) => key.startsWith('0x') ? key.substring(2) : key;
+
+export async function extractAccountPrivateKey(network: BitcoinNetwork, scriptType: ScriptType): Promise<{node:BIP32Interface, mfp: string | 0| undefined}> {
+  const path = [...pathMap[scriptType]]
+
+  const slip10Node = await snap.request({
+      method: "snap_getBip32Entropy",
+      params: {
+          path,
+          curve: CRYPTO_CURVE
+      },
+  }) as SLIP10Node
+  const bip32 = BIP32Factory(ecc);
+  const privateKeyBuffer = Buffer.from(trimHexPrefix(slip10Node.privateKey ?? ""), "hex")
+  const chainCodeBuffer = Buffer.from(trimHexPrefix(slip10Node.chainCode), "hex")
+  const node: BIP32Interface = bip32.fromPrivateKey(privateKeyBuffer, chainCodeBuffer, networks.bitcoin)
+  //@ts-ignore
+  // ignore checking since no function to set depth for node
+  node.__DEPTH = slip10Node.depth;
+  //@ts-ignore
+  // ignore checking since no function to set index for node
+  node.__INDEX = slip10Node.index;
+
+  const mfp = slip10Node.masterFingerprint && slip10Node.masterFingerprint.toString(16)
+  return {
+      node: node.deriveHardened(0),
+      mfp
+  };
+}
+

@@ -1,18 +1,18 @@
 {
-  "version": "0.1.1",
-  "description": "An NostaMask written in TypeScript.",
-  "proposedName": "NostaMask Snap",
+  "version": "0.4.1",
+  "description": "An FluffyMask -- Bip32 Extended for Metamask.",
+  "proposedName": "FluffyMask Snap",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MetaMask/template-snap-monorepo.git"
+    "url": "https://github.com/ubinix-warun/fluffymask.git"
   },
   "source": {
-    "shasum": "BMkurM1saF7y+iVStjGtfF3E+X8DOyRPzsRfVctOPpU=",
+    "shasum": "pH/YCSy1GvnFUhRzeQzWsBz9FzwsUqlzCIXFmSeEd9I=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
         "iconPath": "images/icon.svg",
-        "packageName": "nostamask-snap",
+        "packageName": "fluffymask-snap",
         "registry": "https://registry.npmjs.org/"
       }
     }
@@ -29,6 +29,19 @@
           "m",
           "44'",
           "3'"
+        ],
+        "curve": "secp256k1"
+      }
+    ],
+    "snap_getBip32PublicKey": [
+      {
+        "path": [
+          "m",
+          "44'",
+          "3'",
+          "0'",
+          "0",
+          "0"
         ],
         "curve": "secp256k1"
       }

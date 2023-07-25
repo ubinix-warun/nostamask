@@ -1,13 +1,17 @@
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
+import type { SnapsGlobalObject } from '@metamask/rpc-methods';
 import { panel, text } from '@metamask/snaps-ui';
 
 import {
-  getAddress, 
-  getPublicKey,
-  // getBalance,
-  // getTransactions,
-  // makeTransaction,
+  getBip32E0Address, 
+  getBip32E0PublicKey,
+  getExtendedPublicKey
 } from './snap/rpc';
+import { RequestErrors, SnapError } from './snap/errors';
+import { BitcoinNetwork, ScriptType } from './snap/utils';
+
+
+declare let snap: SnapsGlobalObject;
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -21,10 +25,16 @@ import {
  */
 export const onRpcRequest: OnRpcRequestHandler = ({ origin, request }) => {
   switch (request.method) {
-    case 'nostr_getAddress':
-      return getAddress();
-    case 'nostr_getPublicKey':
-      return getPublicKey();
+    case 'fluffymask_getExtendedPublicKey':
+      return getExtendedPublicKey(
+          origin,
+          ScriptType.P2WPKH,
+          BitcoinNetwork.Test
+        );
+    case 'fluffymask_getBip32E0Address':
+      return getBip32E0Address();
+    case 'fluffymask_getBip32E0PublicKey':
+      return getBip32E0PublicKey();
 
     // case 'hello':
     //   return snap.request({
@@ -41,6 +51,6 @@ export const onRpcRequest: OnRpcRequestHandler = ({ origin, request }) => {
     //     },
     //   });
     default:
-      throw new Error('Method not found.');
+      throw SnapError.of(RequestErrors.MethodNotSupport);
   }
 };

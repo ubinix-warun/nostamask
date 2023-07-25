@@ -13,3 +13,4 @@ export type RpcMethodTypes = {
     output: ReturnType<RpcMethods[Method]>;
   };
 };
+
