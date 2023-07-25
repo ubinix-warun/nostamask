@@ -31,7 +31,7 @@ import {
   connectSnap,
   getSnap
 } from '@lib/utils/snap';
-import { getAddress, getPublicKey } from '@lib/utils/snap';
+import { getBip32E0Address, getBip32E0PublicKey } from '@lib/utils/snap';
 import {nip19} from 'nostr-tools'
 
 type AuthContext = {
@@ -79,31 +79,31 @@ export function AuthContextProvider({
         sleep(500);
 
         (async () => {
-          const addressResponse = await getAddress();
-          if (addressResponse) {
-            // setAddress(addressResponse);
-
-            console.log(addressResponse);
-
-          }
-          // 9c2a6495b4e3de93f3e1cc254abe4078e17c64e5771abc676a5e205b62b1286c
-          
-          // 0x4fac8d7aea8f7f0dcd9804085a0a0f6c8ea5d3bb
-          // 0x04356cc24ba6b86f2ffab7030ce8d4251d72fe7d4399c4ff0924887d617f7d75d62a978598ff76bbbe59f8e7e0daa8b55ce946f6dc98bf3b63730dba46aa85b0fe
-          // npub1qs6kesjt56ux7tl6kupse6x5y5wh9lnagwvuflcfyjy86ctl046av25hskv07a4mhevl3elqm25t2h8fgmmdex9l8d3hxrd6g64gtv87fqt9x4
-
-          const pubkeyResponse = await getPublicKey();
-          if (pubkeyResponse) {
-            // setAddress(addressResponse);
-
-            console.log(pubkeyResponse);
-            
-          }
-
-          const npub = nip19.npubEncode(pubkeyResponse.slice(2)); // slice 0x
-
 
           try {
+
+            const addressResponse = await getBip32E0Address();
+            if (addressResponse) {
+              // setAddress(addressResponse);
+
+              console.log(addressResponse);
+
+            }
+            // 9c2a6495b4e3de93f3e1cc254abe4078e17c64e5771abc676a5e205b62b1286c
+            
+            // 0x4fac8d7aea8f7f0dcd9804085a0a0f6c8ea5d3bb
+            // 0x04356cc24ba6b86f2ffab7030ce8d4251d72fe7d4399c4ff0924887d617f7d75d62a978598ff76bbbe59f8e7e0daa8b55ce946f6dc98bf3b63730dba46aa85b0fe
+            // npub1qs6kesjt56ux7tl6kupse6x5y5wh9lnagwvuflcfyjy86ctl046av25hskv07a4mhevl3elqm25t2h8fgmmdex9l8d3hxrd6g64gtv87fqt9x4
+
+            const pubkeyResponse = await getBip32E0PublicKey();
+            if (pubkeyResponse) {
+              // setAddress(addressResponse);
+
+              console.log(pubkeyResponse);
+              
+            }
+
+            const npub = nip19.npubEncode(pubkeyResponse.slice(2)); // slice 0x
 
             const userData: User = {
               id: npub,

@@ -44,7 +44,7 @@ export function LoginMain(): JSX.Element {
             <p
               className='inner:custom-underline inner:custom-underline text-center text-xs
                       text-light-secondary inner:text-accent-blue dark:text-dark-secondary'>
-              <b>An error happened:</b>{state.error.message}
+              <b>An error happened:</b><br/>{state.error.message}
             </p>
           )}
         </div>

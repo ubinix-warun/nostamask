@@ -21,8 +21,11 @@
     ],
     "paths": {
       "@*": [
-        "./src/*", 
-        "../snap/src/*"]
+        "./src/*"
+      ],
+      "$fluffymask/*": [
+        "../snap/src/*"
+      ]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

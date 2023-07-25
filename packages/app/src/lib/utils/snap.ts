@@ -1,6 +1,6 @@
 import { defaultSnapOrigin } from '@lib/env';
 import { GetSnapsResponse, Snap } from '@lib/types/snap';
-import type { RpcMethodTypes }  from '@snap/rpc-types';
+import type { RpcMethodTypes }  from '$fluffymask/snap/rpc-types';
 
 /**
  * Get the installed snaps in MetaMask.
@@ -66,7 +66,7 @@ const snapRpcRequest = async <M extends keyof RpcMethodTypes>(
     params: {
       snapId: defaultSnapOrigin,
       request: {
-        method: `nostr_${args.snapRpcMethod}`,
+        method: `fluffymask_${args.snapRpcMethod}`,
         params: 'params' in args ? args.params : undefined,
       },
     },
@@ -75,14 +75,14 @@ const snapRpcRequest = async <M extends keyof RpcMethodTypes>(
   return result as unknown as RpcMethodTypes[M]['output'];
 };
 
-export const getAddress = async () => {
+export const getBip32E0Address = async () => {
   return snapRpcRequest({
-    snapRpcMethod: 'getAddress',
+    snapRpcMethod: 'getBip32E0Address',
   });
 };
 
-export const getPublicKey = async () => {
+export const getBip32E0PublicKey = async () => {
   return snapRpcRequest({
-    snapRpcMethod: 'getPublicKey',
+    snapRpcMethod: 'getBip32E0PublicKey',
   });
 };
