@@ -1,13 +1,12 @@
-import { OnRpcRequestHandler } from '@metamask/snaps-types';
-import { panel, text } from '@metamask/snaps-ui';
+import { OnRpcRequestHandler, SnapsGlobalObject } from '@metamask/snaps-types';
+// import { panel, text } from '@metamask/snaps-ui';
 
 import {
-  getAddress, 
-  getPublicKey,
-  // getBalance,
-  // getTransactions,
-  // makeTransaction,
+  getDefaultPublicKey,
+  getSchnorrPublicKey
 } from './snap/rpc';
+
+declare let snap: SnapsGlobalObject;
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -21,10 +20,15 @@ import {
  */
 export const onRpcRequest: OnRpcRequestHandler = ({ origin, request }) => {
   switch (request.method) {
-    case 'nostr_getAddress':
-      return getAddress();
-    case 'nostr_getPublicKey':
-      return getPublicKey();
+    case 'nostr_getDefaultPublicKey':
+      return getDefaultPublicKey();
+    case 'nostr_getSchnorrPublicKey':
+      return getSchnorrPublicKey();
+
+    // case 'bip32e0_getBip32E0Address':
+    //   return getBip32E0Address();
+    // case 'bip32e0_getBip32E0PublicKey':
+    //   return getBip32E0PublicKey();
 
     // case 'hello':
     //   return snap.request({

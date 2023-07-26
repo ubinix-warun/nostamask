@@ -58,7 +58,7 @@ type SnapRpcRequestParams<M extends keyof RpcMethodTypes> =
     ? { snapRpcMethod: M }
     : { snapRpcMethod: M; params: RpcMethodTypes[M]['input'] };
 
-const snapRpcRequest = async <M extends keyof RpcMethodTypes>(
+const snapNostrRpcRequest = async <M extends keyof RpcMethodTypes>(
   args: SnapRpcRequestParams<M>,
 ) => {
   const result = await window.ethereum.request({
@@ -66,7 +66,7 @@ const snapRpcRequest = async <M extends keyof RpcMethodTypes>(
     params: {
       snapId: defaultSnapOrigin,
       request: {
-        method: `fluffymask_${args.snapRpcMethod}`,
+        method: `nostr_${args.snapRpcMethod}`,
         params: 'params' in args ? args.params : undefined,
       },
     },
@@ -75,14 +75,14 @@ const snapRpcRequest = async <M extends keyof RpcMethodTypes>(
   return result as unknown as RpcMethodTypes[M]['output'];
 };
 
-export const getBip32E0Address = async () => {
-  return snapRpcRequest({
-    snapRpcMethod: 'getBip32E0Address',
+export const getNostrDefaultPublicKey = async () => {
+  return snapNostrRpcRequest({
+    snapRpcMethod: 'getDefaultPublicKey',
   });
 };
 
-export const getBip32E0PublicKey = async () => {
-  return snapRpcRequest({
-    snapRpcMethod: 'getBip32E0PublicKey',
+export const getSchnorrPublicKey = async () => {
+  return snapNostrRpcRequest({
+    snapRpcMethod: 'getSchnorrPublicKey',
   });
 };

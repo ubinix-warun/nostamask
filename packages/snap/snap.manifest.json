@@ -1,13 +1,13 @@
 {
-  "version": "0.1.1",
-  "description": "An NostaMask written in TypeScript.",
+  "version": "0.5.5",
+  "description": "An NostaMask -- Bip32 Extended for Metamask.",
   "proposedName": "NostaMask Snap",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MetaMask/template-snap-monorepo.git"
+    "url": "https://github.com/ubinix-warun/nostamask.git"
   },
   "source": {
-    "shasum": "BMkurM1saF7y+iVStjGtfF3E+X8DOyRPzsRfVctOPpU=",
+    "shasum": "FwyRGMu4qBoO3bBW3u7kQo+CRvFLfYA92PGGcScU8no=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -23,16 +23,12 @@
       "dapps": true,
       "snaps": false
     },
-    "snap_getBip32Entropy": [
+    "snap_getBip44Entropy": [
       {
-        "path": [
-          "m",
-          "44'",
-          "3'"
-        ],
-        "curve": "secp256k1"
+        "coinType": 0
       }
-    ]
+    ],
+    "snap_manageState": {}
   },
   "manifestVersion": "0.1"
 }

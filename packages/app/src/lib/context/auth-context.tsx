@@ -31,8 +31,8 @@ import {
   connectSnap,
   getSnap
 } from '@lib/utils/snap';
-import { getBip32E0Address, getBip32E0PublicKey } from '@lib/utils/snap';
-import {nip19} from 'nostr-tools'
+import { getNostrDefaultPublicKey , getSchnorrPublicKey} from '@lib/utils/snap';
+import {generatePrivateKey, getPublicKey, nip19} from 'nostr-tools'
 
 type AuthContext = {
   user: User | null;
@@ -82,32 +82,24 @@ export function AuthContextProvider({
 
           try {
 
-            const addressResponse = await getBip32E0Address();
-            if (addressResponse) {
-              // setAddress(addressResponse);
+            const pubkeyResponse = await getSchnorrPublicKey();
 
-              console.log(addressResponse);
+            // TEST: npub!
+            // npub18acd67v9xzffy5sxwyd20ev09y9fet2tx9juqsxq54653nzu05q0k5as
+            // npub1q0m4t4f0exfru3auyx58vt5jx3znkmvp78qxctv0m2gu7e0q0q3hun0cq9w
+            // npub1ersurphh8d68ndnsz9zru8ht68zpuhfx23nmwwkefrv57xle32xswf67m2
 
+
+            let npub = ""
+            if(pubkeyResponse.startsWith("0x")) {
+              npub = nip19.npubEncode(pubkeyResponse.slice(2)); // slice 0x
+            } else {
+              npub = nip19.npubEncode(pubkeyResponse);
             }
-            // 9c2a6495b4e3de93f3e1cc254abe4078e17c64e5771abc676a5e205b62b1286c
-            
-            // 0x4fac8d7aea8f7f0dcd9804085a0a0f6c8ea5d3bb
-            // 0x04356cc24ba6b86f2ffab7030ce8d4251d72fe7d4399c4ff0924887d617f7d75d62a978598ff76bbbe59f8e7e0daa8b55ce946f6dc98bf3b63730dba46aa85b0fe
-            // npub1qs6kesjt56ux7tl6kupse6x5y5wh9lnagwvuflcfyjy86ctl046av25hskv07a4mhevl3elqm25t2h8fgmmdex9l8d3hxrd6g64gtv87fqt9x4
-
-            const pubkeyResponse = await getBip32E0PublicKey();
-            if (pubkeyResponse) {
-              // setAddress(addressResponse);
-
-              console.log(pubkeyResponse);
-              
-            }
-
-            const npub = nip19.npubEncode(pubkeyResponse.slice(2)); // slice 0x
 
             const userData: User = {
               id: npub,
-              bio: "BBB.",
+              bio: "",
               name: "Sato J." as string,
               theme: null,
               accent: null,
@@ -135,12 +127,11 @@ export function AuthContextProvider({
             // setUserBookmarks(null);
       
           } catch (error) {
+            console.log(error);
             setError(error as Error);
           }
 
         })();
-
-
 
       }
     }
@@ -148,9 +139,8 @@ export function AuthContextProvider({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
-
   useEffect(() => {
-    console.log(user?.id);
+    console.log("GOT UID=" + user?.id);
     
   }, [user?.id]);
 

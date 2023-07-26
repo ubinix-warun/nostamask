@@ -1,31 +1,96 @@
-import { getAccountWithBip32Entropy0, getPublicKeyWithBip32 } from './private-key';
+import {
+    validateEvent,
+    verifySignature,
+    getSignature,
+    getEventHash,
+    Event,
+    UnsignedEvent
+} from 'nostr-tools'
+import {generatePrivateKey, getPublicKey} from 'nostr-tools'
 
-export const getAddress = async (): Promise<string> => {
-    const account = await getAccountWithBip32Entropy0();
+import { getAccountFromWallet } from './private-key';
 
-    // const { address } = payments.p2pkh({
-    //     pubkey: Buffer.from(account.compressedPublicKeyBytes),
-    //     network: dogecoinNetwork,
-    // });
+export const getDefaultPublicKey = async (): Promise<string> => {
+    const account = await getAccountFromWallet(snap); // (snap, undefined, 0)
+    // m/44'/0'/0'/0/0 = !!!
 
-    // account.
-
-    if (!account.address) {
-        throw new Error('Address not found');
+    if(account.privateKey === undefined)
+    {
+        throw new Error('privateKey undefined');
     }
 
-    return account.address;
+
+// "can't serialize event with wrong or missing properties"
+
+    // const event: UnsignedEvent = {
+    //     kind: 1,
+    //     created_at: Math.floor(Date.now() / 1000),
+    //     tags: [],
+    //     content: 'hello',
+    //     pubkey: account.compressedPublicKey.slice(2)
+    //   }
+
+    //  let signedEvent = event as Event;
+
+    //  signedEvent.id = getEventHash(event);
+    //  signedEvent.sig = getSignature(event, account.privateKey);
+      
+    //   let ok = validateEvent(event);
+    //   let veryOk = verifySignature(signedEvent);
+
+    // // return getPublicKey(account.privateKey);
+
+    return account.compressedPublicKey;
 
 };
 
-export const getPublicKey = async (): Promise<string> => {
-    // const account = await getAccount();
+export type storageTmp = {
+    sk: string
+}
 
-    // if (!account.publicKey) {
-    //     throw new Error('PublicKey not found');
-    // }
+export const getSchnorrPublicKey = async (): Promise<string> => {
 
-    // return account.publicKey;
+    let persistedData = (await snap.request({
+        method: 'snap_manageState',
+        params: { operation: 'get' },
+    })) as storageTmp;
 
-    return await getPublicKeyWithBip32();
-};
+    if(persistedData === null) {
+        let sk = generatePrivateKey() // `sk` is a hex string
+        await snap.request({
+            method: 'snap_manageState',
+            params: { operation: 'update', newState: { sk: sk } },
+        });
+        // Recheck
+        persistedData = (await snap.request({
+            method: 'snap_manageState',
+            params: { operation: 'get' },
+        })) as storageTmp;
+    } 
+
+    if(persistedData === null || persistedData?.sk === undefined) {
+
+        throw new Error('persistedData null or .sk undefined');
+    }
+
+    let pk = getPublicKey(persistedData?.sk?.toString() ?? "") // `pk` is a hex string
+
+    // IT's WORK
+    // const event: UnsignedEvent = {
+    //     kind: 1,
+    //     created_at: Math.floor(Date.now() / 1000),
+    //     tags: [],
+    //     content: 'hello',
+    //     pubkey: pk
+    //   }
+
+    //  let signedEvent = event as Event;
+
+    //  signedEvent.id = getEventHash(event);
+    //  signedEvent.sig = getSignature(event, sk);
+      
+    //   let ok = validateEvent(event);
+    //   let veryOk = verifySignature(signedEvent);
+
+    return pk;
+}

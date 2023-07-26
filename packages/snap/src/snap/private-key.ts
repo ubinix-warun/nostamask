@@ -1,40 +1,30 @@
-import { SLIP10Node } from '@metamask/key-tree';
+import { SLIP10Node, JsonBIP44CoinTypeNode, getBIP44AddressKeyDeriver, BIP44Node } from '@metamask/key-tree';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { parseDerivartionPath } from './utils';
 
-/**
- * Derive the single account we're using for this snap.
- * The path of the account is m/44'/1'/0'/0/0.
- */
+export async function getAccountFromWallet(snap: SnapsGlobalObject, path?: string, index?: number): Promise<BIP44Node> {
 
-// https://github.com/MetaMask/metamask-extension/blob/5b6439350ead4027a82f467675763fd9e1a12fcb/shared/constants/snaps.ts#L101
+  const defaultDerivationPath = "m/44'/0'/0'/0/0"  // 0' BTC Mainnet!
+  // "m/44'/0'/0'/0/0" P2PKH
+  // "m/49'/0'/0'/0/0" P2SH_P2WPKH
+  // "m/84'/0'/0'/0/0" P2WPKH
 
-export const getAccountWithBip32Entropy0 = async (): Promise<SLIP10Node> => {
-  const nostrNode = await snap.request({
-    method: 'snap_getBip32Entropy',
+  const [, , coinType, account, change, addressIndex] = path !== undefined ? 
+          await parseDerivartionPath(path) : await parseDerivartionPath(defaultDerivationPath);
+  
+  const bip44Node = await snap.request({
+    method: 'snap_getBip44Entropy',
     params: {
-      // Must be specified exactly in the manifest
-      path: ['m', "44'", "3'"], // Dogecoin!
-      curve: 'secp256k1',
+      coinType: coinType,
     },
   });
-
-  // Next, create an instance of a SLIP-10 node for the Dogecoin node.
-  const nostrSlip10Node = await SLIP10Node.fromJSON(nostrNode);
-
-  return await nostrSlip10Node.derive(["bip32:0'"]);
-
-};
-
-export const getPublicKeyWithBip32 = async (): Promise<string> => {
-  const nostrPublicKey = await snap.request({
-    method: 'snap_getBip32PublicKey',
-    params: {
-      // The path and curve must be specified in the initial permissions.
-      path: ['m', "44'", "3'", "0'", '0', '0'],
-      curve: 'secp256k1',
-      compressed: false,
-    },
+  
+  const addressKeyDeriver = await getBIP44AddressKeyDeriver(bip44Node as JsonBIP44CoinTypeNode, {
+    account: account,
+    change: change,
   });
 
-  return nostrPublicKey;
+  return await addressKeyDeriver(Number(index ?? addressIndex));
 
-};
+}
+
