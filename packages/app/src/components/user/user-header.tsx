@@ -3,9 +3,9 @@ import { useRouter } from 'next/router';
 import { AnimatePresence, motion } from 'framer-motion';
 // import { useDocument } from '@lib/hooks/useDocument';
 import { useUser } from '@lib/context/user-context';
-import { isPlural } from '@lib/utils';
+import { convertUsernameShort, isPlural } from '@lib/utils';
 // import { userStatsCollection } from '@lib/firebase/collections';
-import { UserName } from './user-name';
+import { UserName } from '@components/user/user-name';
 import type { Variants } from 'framer-motion';
 
 export const variants: Variants = {
@@ -32,18 +32,26 @@ export function UserHeader(): JSX.Element {
   //   }
   // );
 
-  // const { tweets, likes } = statsData ?? {};
+  const statsData = {
+    tweets: [],
+    likes: []
+  }
+  const { tweets, likes } = statsData ?? {};
 
-  // const [totalTweets, totalPhotos, totalLikes] = [
-  //   (user?.totalTweets ?? 0) + (tweets?.length ?? 0),
-  //   user?.totalPhotos,
-  //   likes?.length
-  // ];
+  const [totalTweets, totalPhotos, totalLikes] = [
+    (user?.totalTweets ?? 0) + (tweets?.length ?? 0),
+    user?.totalPhotos,
+    likes?.length
+  ];
+
   const statsLoading = false;
 
   const currentPage = pathname.split('/').pop() ?? '';
 
-  const isInTweetPage = ['[id]', 'with_replies'].includes(currentPage);
+  // console.log(user);
+  // console.log(pathname, currentPage);
+
+  const isInTweetPage = ['[npub]', 'with_replies'].includes(currentPage);
   const isInFollowPage = ['following', 'followers'].includes(currentPage);
 
   return (
@@ -72,8 +80,8 @@ export function UserHeader(): JSX.Element {
             verified={user.verified}
           />
           <p className='text-xs text-light-secondary dark:text-dark-secondary'>
-            {/* {isInFollowPage
-              ? `@${user.username}`
+            {isInFollowPage
+              ? `@${convertUsernameShort(user.username)}`
               : isInTweetPage
               ? totalTweets
                 ? `${totalTweets} ${`Tweet${isPlural(totalTweets)}`}`
@@ -86,7 +94,7 @@ export function UserHeader(): JSX.Element {
                 : 'No Photo & GIF'
               : totalLikes
               ? `${totalLikes} Like${isPlural(totalLikes)}`
-              : 'No Like'} */}
+              : 'No Like'}
           </p>
         </motion.div>
       )}

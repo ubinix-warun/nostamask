@@ -2,10 +2,11 @@
 import { HeroIcon } from '@components/ui/hero-icon';
 import { ToolTip } from '@components/ui/tooltip';
 import { UserName } from './user-name';
-// import { UserFollowing } from '@components/user/user-following';
-// import { UserFollowStats } from '@components/user/user-follow-stats';
+import { UserFollowing } from '@components/user/user-following';
+import { UserFollowStats } from '@components/user/user-follow-stats';
 import type { IconName } from '@components/ui/hero-icon';
 import type { User } from '@lib/types/user';
+import { convertUsernameShort } from '@lib/utils';
 
 type UserDetailsProps = Pick<
   User,
@@ -53,14 +54,14 @@ export function UserDetails({
           verified={verified}
         />
         <div className='flex items-center gap-1 text-light-secondary dark:text-dark-secondary'>
-          <p>@{username}</p>
-          {/* <UserFollowing userTargetId={id} /> */}
+          <p>@{convertUsernameShort(username)}</p>
+          <UserFollowing userTargetId={id} />
         </div>
       </div>
       <div className='flex flex-col gap-2'>
         {bio && <p className='whitespace-pre-line break-words'>{bio}</p>}
         <div className='flex flex-wrap gap-x-3 gap-y-1 text-light-secondary dark:text-dark-secondary'>
-          {detailIcons.map(
+          {/* {detailIcons.map(
             ([detail, icon], index) =>
               detail && (
                 <div className='flex items-center gap-1' key={icon}>
@@ -90,7 +91,7 @@ export function UserDetails({
                   )}
                 </div>
               )
-          )}
+          )} */}
         </div>
       </div>
       {/* <UserFollowStats following={following} followers={followers} /> */}

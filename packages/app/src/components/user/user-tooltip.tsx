@@ -71,7 +71,7 @@ export function UserTooltip({
           <div className='flex flex-col gap-2'>
             <div className='-mx-4 -mt-4'>
               {coverPhotoURL ? (
-                <Link href={userLink}>
+                <Link href={userLink} legacyBehavior>
                   <a className='blur-picture'>
                     <NextImage
                       useSkeleton
@@ -117,7 +117,7 @@ export function UserTooltip({
           {bio && <p>{bio}</p>}
           <div className='text-secondary flex gap-4'>
             {allStats.map(([id, label, stat]) => (
-              <Link href={`${userLink}/${id}`} key={id}>
+              <Link href={`${userLink}/${id}`} key={id} legacyBehavior>
                 <a
                   className='hover-animation flex h-4 items-center gap-1 border-b border-b-transparent 
                              outline-none hover:border-b-light-primary focus-visible:border-b-light-primary

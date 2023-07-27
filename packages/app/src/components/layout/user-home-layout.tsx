@@ -15,15 +15,14 @@ import { FollowButton } from '@components/ui/follow-button';
 import { variants } from '@components/user/user-header';
 import { UserEditProfile } from '@components/user/user-edit-profile';
 import { UserShare } from '@components/user/user-share';
-import type { LayoutProps } from './common-layout';
+import type { LayoutProps } from '@components/layout/common-layout';
+import {convertUsernameShort} from '@lib/utils'
 
 export function UserHomeLayout({ children }: LayoutProps): JSX.Element {
   const { user, isAdmin } = useAuth();
   const { user: userData, loading } = useUser();
 
-  const {
-    query: { id }
-  } = useRouter();
+  const router = useRouter();
 
   const coverData = userData?.coverPhotoURL
     ? { src: userData.coverPhotoURL, alt: userData.name }
@@ -53,7 +52,7 @@ export function UserHomeLayout({ children }: LayoutProps): JSX.Element {
             <div className='flex flex-col gap-8'>
               <div className='relative flex flex-col gap-3 px-4 py-3'>
                 <UserHomeAvatar />
-                <p className='text-xl font-bold'>@{id}</p>
+                <p className='text-xl font-bold'>@{convertUsernameShort(router.query.npub?.toString() ?? "")}</p>
               </div>
               <div className='p-8 text-center'>
                 <p className='text-3xl font-bold'>This account doesn’t exist</p>

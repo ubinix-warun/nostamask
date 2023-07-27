@@ -11,8 +11,9 @@ import { UserDataLayout } from '@components/layout/user-data-layout';
 import { UserHomeLayout } from '@components/layout/user-home-layout';
 // import { StatsEmpty } from '@components/tweet/stats-empty';
 import { Loading } from '@components/ui/loading';
-// import { Tweet } from '@components/tweet/tweet';
+import { Tweet } from '@components/tweet/tweet';
 import type { ReactElement, ReactNode } from 'react';
+import { useNostrEvents } from 'nostr-react';
 
 export default function UserTweets(): JSX.Element {
 
@@ -49,6 +50,19 @@ export default function UserTweets(): JSX.Element {
 
 //   const mergedTweets = mergeData(true, ownerTweets, peopleTweets);
 
+  const { events, isLoading } = useNostrEvents({
+    filter: {
+      authors: [
+        user?.id ?? "",
+      ],
+      since: 0,
+      limit: 20,
+      // since: Math.round(Date.now() / 1000),
+      // since: Math.round(Date.now() / 1000) + 60 * 60 * 24 * 360 /* 120 days */,
+      kinds: [1],
+    },
+  });
+  
   return (
     <section>
       {/* {ownerLoading || peopleLoading ? (
@@ -68,6 +82,23 @@ export default function UserTweets(): JSX.Element {
           ))}
         </AnimatePresence>
       )} */}
+
+    { isLoading ? (<Loading className='mt-5' />
+      ) : (
+      <AnimatePresence mode='popLayout'>
+        {/* {pinnedData && (
+          <Tweet pinned {...pinnedData} key={`pinned-${pinnedData.id}`} />
+        )} */}
+        { user &&
+          // user?.username !== undefined &&
+          // user?.username.length > 0 && 
+          events.map((event) => (
+          <Tweet {...event} user={user} key={`pinned-${event.id}`} />
+        ))}
+      </AnimatePresence>
+    )}
+        
+
     </section>
   );
 }

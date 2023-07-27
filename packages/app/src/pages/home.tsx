@@ -1,4 +1,6 @@
 import type { ReactElement, ReactNode } from 'react';
+import { useState, useEffect, useContext, createContext, useMemo } from 'react';
+
 import { AnimatePresence } from 'framer-motion';
 // import { where, orderBy } from 'firebase/firestore';
 import { useWindow } from '@lib/context/window-context';
@@ -15,6 +17,7 @@ import { MainHeader } from '@components/home/main-header';
 // import { Loading } from '@components/ui/loading';
 // import { Error } from '@components/ui/error';
 import { useNostrEvents } from "nostr-react";
+import { nip19 } from "nostr-tools";
 
 export default function Home(): JSX.Element {
   const { isMobile } = useWindow();
@@ -24,16 +27,6 @@ export default function Home(): JSX.Element {
   //   [where('parent', '==', null), orderBy('createdAt', 'desc')],
   //   { includeUser: true, allowNull: true, preserve: true }
   // );
-
-  const { events } = useNostrEvents({
-    filter: {
-      authors: [
-        "9c2a6495b4e3de93f3e1cc254abe4078e17c64e5771abc676a5e205b62b1286c",
-      ],
-      since: 0,
-      kinds: [1],
-    },
-  });
 
   return (
     <MainContainer>

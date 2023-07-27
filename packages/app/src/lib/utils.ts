@@ -1,6 +1,16 @@
 import type { SyntheticEvent } from 'react';
 import type { MotionProps } from 'framer-motion';
 
+export function convertCreatedAtDate(createdAt: number) {
+  const createdAtScale = createdAt * 1000;
+  return new Date(createdAtScale);
+}
+
+export function convertUsernameShort(username: string) {
+  return username.length > 22 ? username.slice(0,22) + "..." : username
+}
+
+
 export function preventBubbling(
   callback?: ((...args: never[]) => unknown) | null,
   noPreventDefault?: boolean

@@ -1,3 +1,4 @@
+import { useState, useEffect, useContext, createContext, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { UserContextProvider } from '@lib/context/user-context';
 import { SEO } from '@components/common/seo';
@@ -7,12 +8,16 @@ import { UserHeader } from '@components/user/user-header';
 import type { LayoutProps } from '@components/layout/common-layout';
 import { useProfile } from "nostr-react";
 import { data } from 'autoprefixer';
+import { useNostrEvents } from 'nostr-react'
 import { nip19 } from 'nostr-tools'
 import { User } from '@lib/types/user';
 
 export function UserDataLayout({ children }: LayoutProps): JSX.Element {
 
   const router = useRouter();
+
+  // const [user, setUser] = useState<User>()
+  // const [loading, setLoading] = useState<boolean>()
 
   // const { data, loading } = useCollection(
   //   query(usersCollection, where('username', '==', id), limit(1)),
@@ -47,34 +52,92 @@ export function UserDataLayout({ children }: LayoutProps): JSX.Element {
 //     "npub": "npub1ns4xf9d5u00f8ulpesj540jq0rshce89wudtcem2tcs9kc439pkqpasrca"
 // }
 
-  const { data: userData } = useProfile({
-    pubkey: nip19.decode(router.query.npub?.toString() ?? "").data.toString(),
+  const testPubkey = "82341f882b6eabcd2ba7f1ef90aad961cf074af15b9ef44a09f9d2a8fbfbe6a2";
+
+  // let user: User | null = null;
+  // let loading = true;
+
+  // const { events } = useNostrEvents({
+  //   filter: {
+  //     authors: [
+  //       // nip19.decode(router.query.npub?.toString() ?? "").data.toString() ?? "",
+  //       testPubkey,
+  //     ],
+  //     since: 0,
+  //     kinds: [0],
+  //   },
+  // });
+
+
+  // useEffect(() => {
+  //   console.log(user);
+  //   if(user === null) {
+  //     if(events.length > 0) {
+
+  //       const pp = JSON.parse(events[0].content)
+
+  //        user = {
+  //         // id: event[0].pubkey || "",
+  //         id: testPubkey || "",
+  //         bio: pp?.about || "",
+  //         name: pp?.name || "",
+  //         theme: null,
+  //         accent: null,
+  //         website: pp?.website || "",
+  //         location: null,
+  //         photoURL: ( pp?.picture || "https://robohash.org/"+(events[0].pubkey || "")) as string,
+  //         username: pp?.username || events[0].pubkey || "",
+  //         verified: false,
+  //         following: [],
+  //         followers: [],
+  //         // createdAt: serverTimestamp(), --- kind 0 => created_At
+  //         // updatedAt: null,
+  //         totalTweets: 0,
+  //         totalPhotos: 0,
+  //         pinnedTweet: null,
+  //         coverPhotoURL: ( pp?.banner || null) as string
+  //       };
+
+  //       console.log(user);
+  //       loading = false;
+  //     }
+  //   }
+
+  // }, [user, events]);
+
+  const { data: userData, isLoading: loading  } = useProfile({
+    // pubkey: nip19.decode(router.query.npub?.toString() ?? "").data.toString(),
+    pubkey: testPubkey,
   });
   
   // const user = data ? data[0] : null;
-  console.log(userData);
+  let user = null;
 
-  const user: User = {
-    id: userData?.npub || "",
-    bio: userData?.about || "",
-    name: userData?.name || "",
-    theme: null,
-    accent: null,
-    website: userData?.website || "",
-    location: null,
-    photoURL: ( userData?.picture || "https://robohash.org/"+(userData?.npub || "")) as string,
-    username: userData?.username || userData?.npub || "",
-    verified: false,
-    following: [],
-    followers: [],
-    // createdAt: serverTimestamp(),
-    // updatedAt: null,
-    totalTweets: 0,
-    totalPhotos: 0,
-    pinnedTweet: null,
-    coverPhotoURL: ( userData?.banner || null) as string
-  };
-  const  loading = false;
+  if(userData) {
+    // console.log(userData);
+
+    user = {
+      // id: userData?.npub || "",
+      id: testPubkey || "",
+      bio: userData?.about || "",
+      name: userData?.name || "",
+      theme: null,
+      accent: null,
+      website: userData?.website || "",
+      location: null,
+      photoURL: ( userData?.picture || "https://robohash.org/"+(userData?.npub || "")) as string,
+      username: userData?.username || userData?.npub || "",
+      verified: false,
+      following: [],
+      followers: [],
+      // createdAt: serverTimestamp(),
+      // updatedAt: null,
+      totalTweets: 0,
+      totalPhotos: 0,
+      pinnedTweet: null,
+      coverPhotoURL: ( userData?.banner || null) as string
+    };
+  }
 
   return (
     <UserContextProvider value={{ user, loading }}>

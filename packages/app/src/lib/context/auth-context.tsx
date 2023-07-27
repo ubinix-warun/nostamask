@@ -33,6 +33,7 @@ import {
 } from '@lib/utils/snap';
 import { getNostrDefaultPublicKey , getSchnorrPublicKey} from '@lib/utils/snap';
 import {generatePrivateKey, getPublicKey, nip19} from 'nostr-tools'
+import { useNostrEvents } from 'nostr-react'
 
 type AuthContext = {
   user: User | null;
@@ -98,9 +99,9 @@ export function AuthContextProvider({
             }
 
             const userData: User = {
-              id: npub,
+              id: pubkeyResponse,
               bio: "",
-              name: "Sato J." as string,
+              name: "" as string,
               theme: null,
               accent: null,
               website: null,
@@ -139,10 +140,11 @@ export function AuthContextProvider({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
-  useEffect(() => {
-    console.log("GOT UID=" + user?.id);
+  
+  // useEffect(() => {
+  //   console.log("GOT UID=" + user?.id);
     
-  }, [user?.id]);
+  // }, [user?.id]);
 
   // const signInWithGoogle = async (): Promise<void> => {
   //   try {

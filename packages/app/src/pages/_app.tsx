@@ -12,7 +12,9 @@ import { NostrProvider } from "nostr-react";
 
 const relayUrls = [
   "wss://nostr-pub.wellorder.net",
-  "wss://relay.nostr.ch",
+  // "wss://nostr.melhorque.com.br",
+  "wss://no.str.cr",
+  "wss://nostr.xpedite-tech.com"
 ];
 
 type NextPageWithLayout = NextPage & {
