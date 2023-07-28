@@ -77,8 +77,6 @@ export function AuthContextProvider({
     if(state.isFlask && state.installedSnap !== undefined) {
       if(state.installedSnap.enabled) {
 
-        sleep(500);
-
         (async () => {
 
           try {
@@ -89,7 +87,6 @@ export function AuthContextProvider({
             // npub18acd67v9xzffy5sxwyd20ev09y9fet2tx9juqsxq54653nzu05q0k5as
             // npub1q0m4t4f0exfru3auyx58vt5jx3znkmvp78qxctv0m2gu7e0q0q3hun0cq9w
             // npub1ersurphh8d68ndnsz9zru8ht68zpuhfx23nmwwkefrv57xle32xswf67m2
-
 
             let npub = ""
             if(pubkeyResponse.startsWith("0x")) {
@@ -183,7 +180,10 @@ export function AuthContextProvider({
     }
   };
 
-  const isAdmin = user ? user.username === 'ccrsxx' : false;
+  // const isAdmin = user ? user.username === 'ccrsxx' : false;
+  const isAdmin = false;
+  // const isAdmin = true;
+
   const randomSeed = useMemo(getRandomId, [user?.id]);
 
   const value: AuthContext = {

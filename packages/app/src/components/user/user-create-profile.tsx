@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import cn from 'clsx';
+import { useAuth } from '@lib/context/auth-context';
 import { useUser } from '@lib/context/user-context';
 import { useModal } from '@lib/hooks/useModal';
 // import { updateUserData, uploadImages } from '@lib/firebase/utils';
@@ -29,12 +30,14 @@ type TrimmedTexts = Pick<
   Exclude<EditableData, 'photoURL' | 'coverPhotoURL'>
 >;
 
-type UserEditProfileProps = {
+type UserCreateProfileProps = {
   hide?: boolean;
 };
 
-export function UserEditProfile({ hide }: UserEditProfileProps): JSX.Element {
-  const { user } = useUser();
+export function UserCreateProfile({ hide }: UserCreateProfileProps): JSX.Element {
+
+  const { user, isAdmin } = useAuth();
+
   const { open, openModal, closeModal } = useModal();
 
   const [loading, setLoading] = useState(false);
@@ -247,7 +250,7 @@ export function UserEditProfile({ hide }: UserEditProfileProps): JSX.Element {
           updateData={updateData}
           removeCoverImage={removeCoverImage}
           resetUserEditData={resetUserEditData}
-          createMode={false}
+          createMode={true}
         >
           {inputFields.map((inputData) => (
             <InputField
@@ -265,7 +268,7 @@ export function UserEditProfile({ hide }: UserEditProfileProps): JSX.Element {
                    dark:hover:bg-dark-primary/10 dark:active:bg-dark-primary/20'
         onClick={openModal}
       >
-        Edit profile
+        Create profile
       </Button>
     </form>
   );

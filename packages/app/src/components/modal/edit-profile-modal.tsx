@@ -22,6 +22,7 @@ type EditProfileModalProps = Pick<
   updateData: () => Promise<void>;
   removeCoverImage: () => void;
   resetUserEditData: () => void;
+  createMode: boolean
 };
 
 export function EditProfileModal({
@@ -35,7 +36,8 @@ export function EditProfileModal({
   closeModal,
   updateData,
   removeCoverImage,
-  resetUserEditData
+  resetUserEditData,
+  createMode
 }: EditProfileModalProps): JSX.Element {
   const coverInputFileRef = useRef<HTMLInputElement>(null);
   const profileInputFileRef = useRef<HTMLInputElement>(null);
@@ -56,7 +58,7 @@ export function EditProfileModal({
         iconName='XMarkIcon'
         tip='Close'
         className='absolute flex w-full items-center gap-6 rounded-tl-2xl'
-        title='Edit profile'
+        title={createMode ? 'Create profile': 'Edit profile'}
         action={closeModal}
       >
         <div className='ml-auto flex items-center gap-3'>
@@ -79,7 +81,7 @@ export function EditProfileModal({
             disabled={!!inputNameError}
             loading={loading}
           >
-            Save
+            {createMode ? "Create": "Save"}
           </Button>
         </div>
       </MainHeader>
@@ -174,7 +176,7 @@ export function EditProfileModal({
             </div>
           </div>
           {children}
-          <Button
+          {/* <Button
             className='accent-tab -mx-4 mb-4 flex cursor-not-allowed items-center justify-between rounded-none
                        py-2 hover:bg-light-primary/10 active:bg-light-primary/20 disabled:brightness-100
                        dark:hover:bg-dark-primary/10 dark:active:bg-dark-primary/20'
@@ -186,7 +188,7 @@ export function EditProfileModal({
                 iconName='ChevronRightIcon'
               />
             </i>
-          </Button>
+          </Button> */}
         </div>
       </section>
     </>

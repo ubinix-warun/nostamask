@@ -12,6 +12,10 @@ export function AuthLayout({ children }: LayoutProps): JSX.Element {
 
   const { replace } = useRouter();
 
+  if (user) {
+    replace('/home'); // onConnected, Shortcut to /home
+  }
+
   useEffect(() => {
     const checkLogin = async (): Promise<void> => {
       setPending(true);

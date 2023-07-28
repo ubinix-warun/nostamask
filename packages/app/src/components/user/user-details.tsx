@@ -3,7 +3,7 @@ import { HeroIcon } from '@components/ui/hero-icon';
 import { ToolTip } from '@components/ui/tooltip';
 import { UserName } from './user-name';
 import { UserFollowing } from '@components/user/user-following';
-import { UserFollowStats } from '@components/user/user-follow-stats';
+// import { UserFollowStats } from '@components/user/user-follow-stats';
 import type { IconName } from '@components/ui/hero-icon';
 import type { User } from '@lib/types/user';
 import { convertUsernameShort } from '@lib/utils';
@@ -39,7 +39,7 @@ export function UserDetails({
   const detailIcons: Readonly<DetailIcon[]> = [
     [location, 'MapPinIcon'],
     [website, 'LinkIcon'],
-    [`Joined --`, 
+    [`Joined --`, // kind 0 -- created_At
     // [`Joined ${formatDate(createdAt, 'joined')}`, 
     'CalendarDaysIcon']
   ];

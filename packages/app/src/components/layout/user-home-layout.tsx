@@ -14,6 +14,7 @@ import { ToolTip } from '@components/ui/tooltip';
 import { FollowButton } from '@components/ui/follow-button';
 import { variants } from '@components/user/user-header';
 import { UserEditProfile } from '@components/user/user-edit-profile';
+import { UserCreateProfile } from '@components/user/user-create-profile';
 import { UserShare } from '@components/user/user-share';
 import type { LayoutProps } from '@components/layout/common-layout';
 import {convertUsernameShort} from '@lib/utils'
@@ -33,8 +34,10 @@ export function UserHomeLayout({ children }: LayoutProps): JSX.Element {
     : null;
 
   const { id: userId } = user ?? {};
+  console.log(userData?.id, userId);
 
   const isOwner = userData?.id === userId;
+  const isNewUser = userData?.id === undefined;
 
   return (
     <>
@@ -53,12 +56,24 @@ export function UserHomeLayout({ children }: LayoutProps): JSX.Element {
               <div className='relative flex flex-col gap-3 px-4 py-3'>
                 <UserHomeAvatar />
                 <p className='text-xl font-bold'>@{convertUsernameShort(router.query.npub?.toString() ?? "")}</p>
+                
               </div>
               <div className='p-8 text-center'>
                 <p className='text-3xl font-bold'>This account doesn’t exist</p>
                 <p className='text-light-secondary dark:text-dark-secondary'>
                   Try searching for another.
                 </p>
+                {(userId && isNewUser) && 
+                <>
+                  <br/>
+                  <div className='grid w-full grid-cols-[1fr,auto,1fr] items-center gap-2'>
+                    <i className='border-b border-light-border dark:border-dark-border' />
+                    <p>or</p>
+                    <i className='border-b border-light-border dark:border-dark-border' />
+                  </div> 
+                  <br/>
+                  <UserCreateProfile />
+                </>}
               </div>
             </div>
           </>

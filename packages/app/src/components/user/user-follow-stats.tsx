@@ -38,11 +38,9 @@ export function UserFollowStats({
     [totalFollowers]
   );
 
-  const {
-    query: { id }
-  } = useRouter();
+  const router = useRouter();
 
-  const userPath = `/user/${id as string}`;
+  const userPath = `/user/${router.query.npub as string}`;
 
   const allStats: Readonly<Stats[]> = [
     ['Following', `${userPath}/following`, followingMove, currentFollowing],
