@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { AnimatePresence } from 'framer-motion';
 // import { doc, query, where, orderBy } from 'firebase/firestore';
@@ -19,50 +19,86 @@ import { ViewParentTweet } from '@components/view/view-parent-tweet';
 import type { ReactElement, ReactNode } from 'react';
 import { TweetWithUser } from '@lib/types/tweet';
 import { useAuth } from '@lib/context/auth-context';
+import { useNostrEvents } from 'nostr-react';
 
 export default function TweetId(): JSX.Element {
   const router = useRouter();
   const { user } = useAuth();
 
-  // const { data: tweetData, loading: tweetLoading } = useDocument(
-  //   doc(tweetsCollection, id as string),
-  //   { includeUser: true, allowNull: true }
-  // );
+  const [ tweetData, setTweetDate ] = useState<TweetWithUser>();
 
-  const tweetData: TweetWithUser = {
-    id: router.query.id?.toString() ?? "",
-    text: "TEST",
-    images: null,
-    parent: null,
-    userLikes: [],
-    createdBy: "",
-    createdAt: 1,
-    user: user,
-    userReplies: 0,
-    userRetweets: []
-  }
-  const tweetLoading = false;
+  const [ parentId, setParentId ] = useState<string>();
+  const [ pageTitle, setPageTitle ] = useState<string>();
+
+  const ids: string[] = [];
+  ids.push (
+    Array.isArray(router.query.id) ? 
+      router.query.id[0] : 
+      router.query.id ?? "" );
+  
   const viewTweetRef = useRef<HTMLElement>(null);
 
-  // const { data: repliesData, loading: repliesLoading } = useCollection(
-  //   query(
-  //     tweetsCollection,
-  //     where('parent.id', '==', id),
-  //     orderBy('createdAt', 'desc')
-  //   ),
-  //   { includeUser: true, allowNull: true }
-  // );
+  const { onEvent: onTweetEvent, 
+          onSubscribe: onTweetSubscribe, 
+          isLoading: tweetLoading, onDone } = useNostrEvents({
+    filter: {
+      ids: ids,
+      kinds: [1],
+    },
+  })
 
-  const { text, images } = tweetData ?? {};
+  onTweetSubscribe(() => {
 
-  const imagesLength = images?.length ?? 0;
-  const parentId = tweetData?.parent?.id;
+  })
 
-  const pageTitle = tweetData
-    ? `${tweetData.user.name} on Twitter: "${text ?? ''}${
-        images ? ` (${imagesLength} image${isPlural(imagesLength)})` : ''
-      }" / Twitter`
-    : null;
+  onTweetEvent((rawMetadata) => {
+
+      if(user) {
+        setTweetDate({
+          id: router.query.id?.toString() ?? "",
+          text: rawMetadata.content,
+          images: null,
+          parent: null,
+          userLikes: [],
+          createdBy: user.username,
+          createdAt: rawMetadata.created_at,
+          user: user,
+          userReplies: 0,
+          userRetweets: []
+        });
+        
+        const { text, images } = tweetData ?? {};
+
+        const imagesLength = images?.length ?? 0;
+        const parentId = tweetData?.parent?.id;
+
+        const pageTitle = tweetData
+          ? `${tweetData.user.name} on Twitter: "${text ?? ''}${
+              images ? ` (${imagesLength} image${isPlural(imagesLength)})` : ''
+            }" / Twitter`
+          : null;
+
+        if(parentId!==null)
+          setParentId(parentId);
+
+        if(pageTitle!==null)
+          setPageTitle(pageTitle);
+
+      }
+
+  })
+
+
+  // // const { data: repliesData, loading: repliesLoading } = useCollection(
+  // //   query(
+  // //     tweetsCollection,
+  // //     where('parent.id', '==', id),
+  // //     orderBy('createdAt', 'desc')
+  // //   ),
+  // //   { includeUser: true, allowNull: true }
+  // // );
+
+
 
   return (
     <MainContainer className='!pb-[1280px]'>
@@ -81,15 +117,15 @@ export default function TweetId(): JSX.Element {
           </>
         ) : (
           <>
-            {pageTitle && <SEO title={pageTitle} />}
-            {parentId && (
+           {pageTitle && <SEO title={pageTitle} />}
+             {parentId && (
               <ViewParentTweet
                 parentId={parentId}
                 viewTweetRef={viewTweetRef}
               />
             )}
             <ViewTweet viewTweetRef={viewTweetRef} {...tweetData} />
-            {/* {tweetData &&
+            {/*{tweetData &&
               (repliesLoading ? (
                 <Loading className='mt-5' />
               ) : (
