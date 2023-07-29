@@ -106,8 +106,8 @@ export function UserDataLayout({ children }: LayoutProps): JSX.Element {
   // }, [user, events]);
 
   const { data: userData, isLoading: loading  } = useProfile({
-    // pubkey: nip19.decode(router.query.npub?.toString() ?? "").data.toString(),
-    pubkey: testPubkey,
+    pubkey: nip19.decode(router.query.npub?.toString() ?? "").data.toString(),
+    // pubkey: testPubkey,
   });
   
   // const user = data ? data[0] : null;
@@ -117,8 +117,8 @@ export function UserDataLayout({ children }: LayoutProps): JSX.Element {
     // console.log(userData);
 
     user = {
-      // id: userData?.npub || "",
-      id: testPubkey || "",
+      id: userData?.npub || "",
+      // id: testPubkey || "",
       bio: userData?.about || "",
       name: userData?.name || "",
       theme: null,
