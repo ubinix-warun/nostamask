@@ -16,14 +16,6 @@ export function UserDataLayout({ children }: LayoutProps): JSX.Element {
 
   const router = useRouter();
 
-  // const [user, setUser] = useState<User>()
-  // const [loading, setLoading] = useState<boolean>()
-
-  // const { data, loading } = useCollection(
-  //   query(usersCollection, where('username', '==', id), limit(1)),
-  //   { allowNull: true }
-  // );
-
   // SAMPLE nProfile https://nostrcheck.me/converter/
 
   // pubkey: "9c2a6495b4e3de93f3e1cc254abe4078e17c64e5771abc676a5e205b62b1286c",
@@ -53,6 +45,61 @@ export function UserDataLayout({ children }: LayoutProps): JSX.Element {
 // }
 
   const testPubkey = "82341f882b6eabcd2ba7f1ef90aad961cf074af15b9ef44a09f9d2a8fbfbe6a2";
+
+  const { data: userData, isLoading: loading  } = useProfile({
+    pubkey: nip19.decode(router.query.npub?.toString() ?? "").data.toString(),
+    // pubkey: testPubkey,
+  });
+  
+  // const user = data ? data[0] : null;
+  let user = null;
+
+  if(userData) {
+    // console.log(userData);
+
+    user = {
+      id: userData?.npub || "",
+      // id: testPubkey || "",
+      bio: userData?.about || "",
+      name: userData?.name || "",
+      theme: null,
+      accent: null,
+      website: userData?.website || "",
+      location: null,
+      photoURL: ( userData?.picture || "https://robohash.org/"+(userData?.npub || "")) as string,
+      username: userData?.username || userData?.npub || "",
+      verified: false,
+      following: [],
+      followers: [],
+      // createdAt: serverTimestamp(),
+      // updatedAt: null,
+      totalTweets: 0,
+      totalPhotos: 0,
+      pinnedTweet: null,
+      coverPhotoURL: ( userData?.banner || null) as string
+    };
+  }
+
+  return (
+    <UserContextProvider value={{ user, loading }}>
+      {!user && !loading && <SEO title='User not found / Twitter' />}
+      <MainContainer>
+        <MainHeader useActionButton action={router.back}>
+          <UserHeader />
+        </MainHeader>
+        {children}
+      </MainContainer>
+    </UserContextProvider>
+  );
+
+  // const [user, setUser] = useState<User>()
+  // const [loading, setLoading] = useState<boolean>()
+
+  // const { data, loading } = useCollection(
+  //   query(usersCollection, where('username', '==', id), limit(1)),
+  //   { allowNull: true }
+  // );
+
 
   // let user: User | null = null;
   // let loading = true;
@@ -105,49 +152,4 @@ export function UserDataLayout({ children }: LayoutProps): JSX.Element {
 
   // }, [user, events]);
 
-  const { data: userData, isLoading: loading  } = useProfile({
-    pubkey: nip19.decode(router.query.npub?.toString() ?? "").data.toString(),
-    // pubkey: testPubkey,
-  });
-  
-  // const user = data ? data[0] : null;
-  let user = null;
-
-  if(userData) {
-    // console.log(userData);
-
-    user = {
-      id: userData?.npub || "",
-      // id: testPubkey || "",
-      bio: userData?.about || "",
-      name: userData?.name || "",
-      theme: null,
-      accent: null,
-      website: userData?.website || "",
-      location: null,
-      photoURL: ( userData?.picture || "https://robohash.org/"+(userData?.npub || "")) as string,
-      username: userData?.username || userData?.npub || "",
-      verified: false,
-      following: [],
-      followers: [],
-      // createdAt: serverTimestamp(),
-      // updatedAt: null,
-      totalTweets: 0,
-      totalPhotos: 0,
-      pinnedTweet: null,
-      coverPhotoURL: ( userData?.banner || null) as string
-    };
-  }
-
-  return (
-    <UserContextProvider value={{ user, loading }}>
-      {!user && !loading && <SEO title='User not found / Twitter' />}
-      <MainContainer>
-        <MainHeader useActionButton action={router.back}>
-          <UserHeader />
-        </MainHeader>
-        {children}
-      </MainContainer>
-    </UserContextProvider>
-  );
 }
