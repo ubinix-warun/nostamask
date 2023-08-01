@@ -1,4 +1,9 @@
+import { Event } from 'nostr-tools';
 import * as rpcMethods from './rpc';
+
+export type NostrEventParams = {
+  e: Event;
+};
 
 type RpcMethods = typeof rpcMethods;
 type InferArgs<M extends keyof RpcMethods> = RpcMethods[M] extends (

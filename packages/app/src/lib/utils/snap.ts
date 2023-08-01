@@ -1,6 +1,7 @@
 import { defaultSnapOrigin } from '@lib/env';
 import { GetSnapsResponse, Snap } from '@lib/types/snap';
-import type { RpcMethodTypes }  from '$fluffymask/snap/rpc-types';
+import type { NostrEventParams, RpcMethodTypes }  from '$fluffymask/snap/rpc-types';
+import { UnsignedEvent } from 'nostr-tools';
 
 /**
  * Get the installed snaps in MetaMask.
@@ -84,5 +85,12 @@ export const getNostrDefaultPublicKey = async () => {
 export const getSchnorrPublicKey = async () => {
   return snapNostrRpcRequest({
     snapRpcMethod: 'getSchnorrPublicKey',
+  });
+};
+
+export const signNostrEvent = async (e: UnsignedEvent) => {
+  return snapNostrRpcRequest({
+    snapRpcMethod: 'signNostrEvent',
+    params: { e }  as NostrEventParams
   });
 };

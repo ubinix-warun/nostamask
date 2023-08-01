@@ -34,6 +34,8 @@ import {
 import { getNostrDefaultPublicKey , getSchnorrPublicKey} from '@lib/utils/snap';
 import {generatePrivateKey, getPublicKey, nip19} from 'nostr-tools'
 import { useNostrEvents } from 'nostr-react'
+import { convertPubKeyOnlyToUser } from '@lib/utils/convert';
+import { useUser } from './user-context';
 
 type AuthContext = {
   user: User | null;
@@ -57,6 +59,7 @@ type AuthContextProviderProps = {
 export function AuthContextProvider({
   children
 }: AuthContextProviderProps): JSX.Element {
+
   const [user, setUser] = useState<User | null>(null);
   const [userBookmarks, setUserBookmarks] = useState<Bookmark[] | null>(null);
   const [error, setError] = useState<Error | null>(null);
@@ -88,34 +91,8 @@ export function AuthContextProvider({
             // npub1q0m4t4f0exfru3auyx58vt5jx3znkmvp78qxctv0m2gu7e0q0q3hun0cq9w
             // npub1ersurphh8d68ndnsz9zru8ht68zpuhfx23nmwwkefrv57xle32xswf67m2
 
-            let npub = ""
-            if(pubkeyResponse.startsWith("0x")) {
-              npub = nip19.npubEncode(pubkeyResponse.slice(2)); // slice 0x
-            } else {
-              npub = nip19.npubEncode(pubkeyResponse);
-            }
+            const userData = await convertPubKeyOnlyToUser(pubkeyResponse);
 
-            const userData: User = {
-              id: pubkeyResponse,
-              bio: "",
-              name: "" as string,
-              theme: null,
-              accent: null,
-              website: null,
-              location: null,
-              photoURL: "https://robohash.org/"+npub as string,
-              username: npub,
-              verified: false,
-              following: [],
-              followers: [],
-              // createdAt: serverTimestamp(),
-              // updatedAt: null,
-              totalTweets: 0,
-              totalPhotos: 0,
-              pinnedTweet: null,
-              coverPhotoURL: null
-            };
-        
             setUser(userData);
             setLoading(false);
             setUserBookmarks([]);

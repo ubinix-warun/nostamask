@@ -69,6 +69,13 @@ export function UserCreateProfile({ hide }: UserCreateProfileProps): JSX.Element
 
   const updateData = async (): Promise<void> => {
     setLoading(true);
+    
+    if(user==null)
+    {
+      setLoading(false);
+      toast.error('Profile is Error');
+      return 
+    }
 
     const userId = user?.id as string;
 
@@ -106,7 +113,7 @@ export function UserCreateProfile({ hide }: UserCreateProfileProps): JSX.Element
 
     await sleep(500);
 
-    await updateUserData(userId, newUserData);
+    await updateUserData(user, newUserData);
 
     closeModal();
 

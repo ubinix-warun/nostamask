@@ -11,7 +11,10 @@ import { data } from 'autoprefixer';
 import { useNostrEvents } from 'nostr-react'
 import { nip19 } from 'nostr-tools'
 import { User } from '@lib/types/user';
-
+import { useAuth } from '@lib/context/auth-context';
+import { convertUserDataToKind0UserData } from '@lib/utils/convert';
+import { Kind0UserData, TestPubkey } from '@lib/utils/nostr';
+   
 export function UserDataLayout({ children }: LayoutProps): JSX.Element {
 
   const router = useRouter();
@@ -44,11 +47,9 @@ export function UserDataLayout({ children }: LayoutProps): JSX.Element {
 //     "npub": "npub1ns4xf9d5u00f8ulpesj540jq0rshce89wudtcem2tcs9kc439pkqpasrca"
 // }
 
-  const testPubkey = "82341f882b6eabcd2ba7f1ef90aad961cf074af15b9ef44a09f9d2a8fbfbe6a2";
-
   const { data: userData, isLoading: loading  } = useProfile({
     pubkey: nip19.decode(router.query.npub?.toString() ?? "").data.toString(),
-    // pubkey: testPubkey,
+    // pubkey: TestPubkey,
   });
   
   // const user = data ? data[0] : null;
@@ -57,28 +58,9 @@ export function UserDataLayout({ children }: LayoutProps): JSX.Element {
   if(userData) {
     // console.log(userData);
 
-    user = {
-      id: userData?.npub || "",
-      // id: testPubkey || "",
-      bio: userData?.about || "",
-      name: userData?.name || "",
-      theme: null,
-      accent: null,
-      website: userData?.website || "",
-      location: null,
-      photoURL: ( userData?.picture || "https://robohash.org/"+(userData?.npub || "")) as string,
-      username: userData?.username || userData?.npub || "",
-      verified: false,
-      following: [],
-      followers: [],
-      // createdAt: serverTimestamp(),
-      // updatedAt: null,
-      totalTweets: 0,
-      totalPhotos: 0,
-      pinnedTweet: null,
-      coverPhotoURL: ( userData?.banner || null) as string
-    };
-  }
+    user = convertUserDataToKind0UserData(userData as Kind0UserData);
+
+  } 
 
   return (
     <UserContextProvider value={{ user, loading }}>

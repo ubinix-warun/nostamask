@@ -9,6 +9,7 @@ import {
 import {generatePrivateKey, getPublicKey} from 'nostr-tools'
 
 import { getAccountFromWallet } from './private-key';
+import { NostrEventParams } from './rpc-types';
 
 export const getDefaultPublicKey = async (): Promise<string> => {
     const account = await getAccountFromWallet(snap); // (snap, undefined, 0)
@@ -93,4 +94,45 @@ export const getSchnorrPublicKey = async (): Promise<string> => {
     //   let veryOk = verifySignature(signedEvent);
 
     return pk;
+}
+
+export const signNostrEvent = async ({ e }: NostrEventParams): Promise<Event> => {
+
+    let persistedData = (await snap.request({
+        method: 'snap_manageState',
+        params: { operation: 'get' },
+    })) as storageTmp;
+
+    if(persistedData === null || persistedData?.sk === undefined) {
+
+        throw new Error('persistedData null or .sk undefined');
+    }
+
+    try {
+
+    //  let signedEvent: Event = {
+    //     content: e.content,
+    //     kind: e.kind,
+    //     tags: e.tags,
+    //     created_at: e.created_at,
+    //     pubkey: e.pubkey,
+    //     id: '',
+    //     sig: ''
+    //     // id: getEventHash(e),
+    //     // sig: getSignature(e, persistedData.sk)
+    //  }
+
+     signedEvent.id = getEventHash(e);
+     signedEvent.sig = getSignature(e, persistedData.sk);
+      
+      let ok = validateEvent(e);
+      let veryOk = verifySignature(signedEvent);
+
+      return signedEvent;
+
+    } catch(e) {
+        throw new Error(JSON.stringify(e));
+    }
+
+
 }
