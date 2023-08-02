@@ -3,8 +3,10 @@ import { OnRpcRequestHandler, SnapsGlobalObject } from '@metamask/snaps-types';
 
 import {
   getDefaultPublicKey,
-  getSchnorrPublicKey
+  getSchnorrPublicKey,
+  signNostrEvent
 } from './snap/rpc';
+import { NostrEventParams } from './snap/rpc-types';
 
 declare let snap: SnapsGlobalObject;
 
@@ -24,6 +26,8 @@ export const onRpcRequest: OnRpcRequestHandler = ({ origin, request }) => {
       return getDefaultPublicKey();
     case 'nostr_getSchnorrPublicKey':
       return getSchnorrPublicKey();
+    case 'nostr_signNostrEvent':
+      return signNostrEvent(request.params as NostrEventParams);
 
     // case 'bip32e0_getBip32E0Address':
     //   return getBip32E0Address();

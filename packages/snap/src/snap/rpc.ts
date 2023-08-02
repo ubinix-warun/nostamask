@@ -3,8 +3,7 @@ import {
     verifySignature,
     getSignature,
     getEventHash,
-    Event,
-    UnsignedEvent
+    type Event as NostrEvent,
 } from 'nostr-tools'
 import {generatePrivateKey, getPublicKey} from 'nostr-tools'
 
@@ -96,7 +95,7 @@ export const getSchnorrPublicKey = async (): Promise<string> => {
     return pk;
 }
 
-export const signNostrEvent = async ({ e }: NostrEventParams): Promise<Event> => {
+export const signNostrEvent = async ({ e }: NostrEventParams): Promise<NostrEvent> => {
 
     let persistedData = (await snap.request({
         method: 'snap_manageState',
@@ -110,28 +109,29 @@ export const signNostrEvent = async ({ e }: NostrEventParams): Promise<Event> =>
 
     try {
 
-    //  let signedEvent: Event = {
-    //     content: e.content,
-    //     kind: e.kind,
-    //     tags: e.tags,
-    //     created_at: e.created_at,
-    //     pubkey: e.pubkey,
-    //     id: '',
-    //     sig: ''
-    //     // id: getEventHash(e),
-    //     // sig: getSignature(e, persistedData.sk)
-    //  }
+     const signedEvent: NostrEvent = {
+        content: e.content,
+        kind: e.kind,
+        tags: e.tags,
+        created_at: e.created_at,
+        pubkey: e.pubkey,
+        id: '',
+        sig: ''
+        // id: getEventHash(e),
+        // sig: getSignature(e, persistedData.sk)
+     };
 
-     signedEvent.id = getEventHash(e);
-     signedEvent.sig = getSignature(e, persistedData.sk);
+     signedEvent.id = getEventHash(signedEvent);
+     signedEvent.sig = getSignature(signedEvent, persistedData.sk);
       
-      let ok = validateEvent(e);
-      let veryOk = verifySignature(signedEvent);
+    //   let ok = validateEvent(e);
+    //   let veryOk = verifySignature(signedEvent);
 
       return signedEvent;
 
-    } catch(e) {
-        throw new Error(JSON.stringify(e));
+    } catch(err) {
+        const result = (err as Error).message;
+        throw new Error(JSON.stringify(err) + ", " + result);
     }
 
 
