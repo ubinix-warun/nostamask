@@ -24,6 +24,9 @@ import type { Variants } from 'framer-motion';
 import type { User } from '@lib/types/user';
 import type { Tweet } from '@lib/types/tweet';
 import type { FilesWithId, ImagesPreview, ImageData } from '@lib/types/file';
+import { dateToUnix, useNostr } from 'nostr-react';
+import { publishTweetData } from '@lib/utils/nostr';
+import { uploadImages } from '@lib/utils/infura';
 
 type InputProps = {
   modal?: boolean;
@@ -56,6 +59,9 @@ export function Input({
   const [visited, setVisited] = useState(false);
 
   const { user, isAdmin } = useAuth();
+
+  const { publish } = useNostr();
+  
   const { name, username, photoURL } = user as User;
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -77,23 +83,32 @@ export function Input({
 
     setLoading(true);
 
+    if(user==null)
+    {
+      setLoading(false);
+      toast.error('Profile is Error');
+      return 
+    }
+
     const isReplying = reply ?? replyModal;
 
     const userId = user?.id as string;
 
-    // const tweetData: WithFieldValue<Omit<Tweet, 'id'>> = {
-    //   text: inputValue.trim() || null,
-    //   parent: isReplying && parent ? parent : null,
-    //   images: await uploadImages(userId, selectedImages),
-    //   userLikes: [],
-    //   createdBy: userId,
-    //   createdAt: serverTimestamp(),
-    //   updatedAt: null,
-    //   userReplies: 0,
-    //   userRetweets: []
-    // };
+    const tweetData: Omit<Tweet, 'id'> = {
+      text: inputValue.trim() || null,
+      parent: isReplying && parent ? parent : null,
+      images: await uploadImages(userId, selectedImages),
+      userLikes: [],
+      createdBy: userId,
+      createdAt: dateToUnix(),
+      // updatedAt: null,
+      userReplies: 0,
+      userRetweets: []
+    };
 
     await sleep(500);
+
+    await publishTweetData(user, publish, tweetData);
 
     // const [tweetRef] = await Promise.all([
     //   addDoc(tweetsCollection, tweetData),

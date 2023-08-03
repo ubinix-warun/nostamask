@@ -110,7 +110,7 @@ export function UserEditProfile({ hide }: UserEditProfileProps): JSX.Element {
 
     await sleep(500);
 
-    await updateUserData(user, newUserData);
+    // await updateUserData(user, publish, newUserData);
 
     closeModal();
 

@@ -1,8 +1,8 @@
-import { Event } from 'nostr-tools';
+import { UnsignedEvent } from 'nostr-tools';
 import * as rpcMethods from './rpc';
 
 export type NostrEventParams = {
-  e: Event;
+  e: any;
 };
 
 type RpcMethods = typeof rpcMethods;

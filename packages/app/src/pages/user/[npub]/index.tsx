@@ -62,6 +62,8 @@ export default function UserTweets(): JSX.Element {
       kinds: [1],
     },
   });
+
+  console.log(user)
   
   return (
     <section>

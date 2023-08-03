@@ -5,6 +5,7 @@ import {
     UnsignedEvent, nip19
   } from "nostr-tools";
 import { Kind0UserData, TestPubkey } from '@lib/utils/nostr';
+import { Tweet } from '@lib/types/tweet';
 
 
 export async function convertPubKeyOnlyToUser(
@@ -48,7 +49,7 @@ export function convertUserDataToKind0UserData(
     ): User {
     
    return {
-      id: userData?.npub || "",
+      id: nip19.decode(userData?.npub ?? "").data.toString() || "",
     //   id: TestPubkey || "",
       bio: userData?.about || "",
       name: userData?.name || "",
@@ -73,8 +74,7 @@ export function convertUserDataToKind0UserData(
 export function convertEditableUserDataToNostrEvent(
     user: User,
     userData: EditableUserData
-  ): UnsignedEvent {
-
+  ): any {
 
     const rawMsg = JSON.stringify(
       {
@@ -94,15 +94,30 @@ export function convertEditableUserDataToNostrEvent(
       }
     );
 
-    const event: UnsignedEvent = {
+    const event: any = {
         content: rawMsg,
         kind: 0,
         tags: [],
         created_at: dateToUnix(),
-        pubkey: user.username,
     };
 
+    return event;
+  }
+
+
+  export function convertTweetDataToNostrEvent(
+    user: User,
+    tweetData: Omit<Tweet, 'id'>
+  ): any {
+
+    const rawMsg = tweetData.text
+
+    const event: any = {
+        content: rawMsg,
+        kind: 1,
+        tags: [],
+        created_at: tweetData.createdAt,
+    };
 
     return event;
-
   }

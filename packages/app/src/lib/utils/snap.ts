@@ -88,7 +88,7 @@ export const getSchnorrPublicKey = async () => {
   });
 };
 
-export const signNostrEvent = async (e: UnsignedEvent) => {
+export const signNostrEvent = async (e: any) => {
   return snapNostrRpcRequest({
     snapRpcMethod: 'signNostrEvent',
     params: { e }  as NostrEventParams

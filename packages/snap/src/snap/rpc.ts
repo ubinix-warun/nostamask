@@ -109,29 +109,22 @@ export const signNostrEvent = async ({ e }: NostrEventParams): Promise<NostrEven
 
     try {
 
-     const signedEvent: NostrEvent = {
-        content: e.content,
-        kind: e.kind,
-        tags: e.tags,
-        created_at: e.created_at,
-        pubkey: e.pubkey,
-        id: '',
-        sig: ''
-        // id: getEventHash(e),
-        // sig: getSignature(e, persistedData.sk)
-     };
+        let signedEvent: any = {
+            kind: e.kind,
+            created_at: e.created_at,
+            tags: e.tags,
+            content: e.content,
+            pubkey: getPublicKey(persistedData?.sk)
+        }
 
-     signedEvent.id = getEventHash(signedEvent);
-     signedEvent.sig = getSignature(signedEvent, persistedData.sk);
-      
-    //   let ok = validateEvent(e);
-    //   let veryOk = verifySignature(signedEvent);
+        signedEvent.id = getEventHash(signedEvent);
+        signedEvent.sig = getSignature(signedEvent, persistedData?.sk);
 
-      return signedEvent;
-
+        return signedEvent;
+        
     } catch(err) {
         const result = (err as Error).message;
-        throw new Error(JSON.stringify(err) + ", " + result);
+        throw new Error(result);
     }
 
 
