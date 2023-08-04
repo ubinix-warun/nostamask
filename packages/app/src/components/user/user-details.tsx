@@ -3,10 +3,11 @@ import { HeroIcon } from '@components/ui/hero-icon';
 import { ToolTip } from '@components/ui/tooltip';
 import { UserName } from './user-name';
 import { UserFollowing } from '@components/user/user-following';
-// import { UserFollowStats } from '@components/user/user-follow-stats';
+import { UserFollowStats } from '@components/user/user-follow-stats';
 import type { IconName } from '@components/ui/hero-icon';
 import type { User } from '@lib/types/user';
-import { convertUsernameShort } from '@lib/utils';
+import { convertCreatedAtDate, convertUsernameShort } from '@lib/utils';
+import { formatDate } from '@lib/date';
 
 type UserDetailsProps = Pick<
   User,
@@ -40,7 +41,7 @@ export function UserDetails({
     [location, 'MapPinIcon'],
     [website, 'LinkIcon'],
     [`Joined --`, // kind 0 -- created_At
-    // [`Joined ${formatDate(createdAt, 'joined')}`, 
+    // [`Joined ${formatDate(convertCreatedAtDate(createdAt), 'joined')}`, 
     'CalendarDaysIcon']
   ];
 
@@ -94,7 +95,7 @@ export function UserDetails({
           )} */}
         </div>
       </div>
-      {/* <UserFollowStats following={following} followers={followers} /> */}
+      <UserFollowStats following={following} followers={followers} />
     </>
   );
 }

@@ -15,6 +15,7 @@ import type { ChangeEvent, KeyboardEvent } from 'react';
 import type { FilesWithId } from '@lib/types/file';
 import type { User, EditableData, EditableUserData } from '@lib/types/user';
 import type { InputFieldProps } from '@components/input/input-field';
+import { useNostr } from 'nostr-react';
 
 type RequiredInputFieldProps = Omit<InputFieldProps, 'handleChange'> & {
   inputId: EditableData;
@@ -36,6 +37,9 @@ type UserEditProfileProps = {
 
 export function UserEditProfile({ hide }: UserEditProfileProps): JSX.Element {
   const { user } = useUser();
+  
+  const { publish } = useNostr();
+
   const { open, openModal, closeModal } = useModal();
 
   const [loading, setLoading] = useState(false);
@@ -110,7 +114,7 @@ export function UserEditProfile({ hide }: UserEditProfileProps): JSX.Element {
 
     await sleep(500);
 
-    // await updateUserData(user, publish, newUserData);
+    await updateUserData(user, publish, newUserData);
 
     closeModal();
 

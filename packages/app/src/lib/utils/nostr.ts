@@ -26,6 +26,7 @@ export type Kind0UserData = {
     lud06?: string | undefined;
     lud16?: string | undefined;
     nip05?: string | undefined;
+    location?: string | undefined;
   };
 
   

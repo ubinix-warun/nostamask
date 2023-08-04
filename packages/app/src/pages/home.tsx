@@ -10,14 +10,16 @@ import { HomeLayout, ProtectedLayout } from '@components/layout/common-layout';
 import { MainLayout } from '@components/layout/main-layout';
 import { SEO } from '@components/common/seo';
 import { MainContainer } from '@components/home/main-container';
-// import { Input } from '@components/input/input';
-// import { UpdateUsername } from '@components/home/update-username';
+import { Input } from '@components/input/input';
+import { UpdateUsername } from '@components/home/update-username';
 import { MainHeader } from '@components/home/main-header';
-// import { Tweet } from '@components/tweet/tweet';
-// import { Loading } from '@components/ui/loading';
-// import { Error } from '@components/ui/error';
+import { Tweet } from '@components/tweet/tweet';
+import { Loading } from '@components/ui/loading';
+import { Error } from '@components/ui/error';
 import { useNostrEvents } from "nostr-react";
 import { nip19 } from "nostr-tools";
+import { useUser } from '@lib/context/user-context';
+import { useAuth } from '@lib/context/auth-context';
 
 export default function Home(): JSX.Element {
   const { isMobile } = useWindow();
@@ -27,6 +29,21 @@ export default function Home(): JSX.Element {
   //   [where('parent', '==', null), orderBy('createdAt', 'desc')],
   //   { includeUser: true, allowNull: true, preserve: true }
   // );
+
+  const { user } = useAuth();
+  
+  const { events: data, isLoading: loading } = useNostrEvents({
+    filter: {
+      authors: [
+        user?.id ?? "",
+      ],
+      since: 0,
+      limit: 20,
+      // since: Math.round(Date.now() / 1000),
+      // since: Math.round(Date.now() / 1000) + 60 * 60 * 24 * 360 /* 120 days */,
+      kinds: [1],
+    },
+  });
 
   return (
     <MainContainer>
@@ -38,8 +55,8 @@ export default function Home(): JSX.Element {
       >
         {/* <UpdateUsername /> */}
       </MainHeader>
-      {/* {!isMobile && <Input />} */}
-      {/* <section className='mt-0.5 xs:mt-0'>
+      {!isMobile && <Input />}
+      <section className='mt-0.5 xs:mt-0'>
         {loading ? (
           <Loading className='mt-5' />
         ) : !data ? (
@@ -47,24 +64,14 @@ export default function Home(): JSX.Element {
         ) : (
           <>
             <AnimatePresence mode='popLayout'>
-              {data.map((tweet) => (
-                <Tweet {...tweet} key={tweet.id} />
+              { user && data.map((tweet) => (
+                <Tweet {...tweet} user={user} key={tweet.id} />
               ))}
             </AnimatePresence>
-            <LoadMore />
+            {/* <LoadMore /> */}
           </>
         )}
-      </section> */}
-      {/* <section className='mt-0.5 xs:mt-0'>
-      <>
-        <AnimatePresence mode='popLayout'>
-        {events.map((event) => (
-          <p key={event.id}>{event.created_at} posted: {event.content}</p>
-        ))}
-        </AnimatePresence>
-        <LoadMore />
-      </>
-      </section> */}
+      </section>
     </MainContainer>
   );
 }
