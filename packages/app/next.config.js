@@ -1,10 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: [ 'nostr.build',
-        'robohash.org', 
-        'upload.wikimedia.org', 
-        'nostamask.infura-ipfs.io']
+        remotePatterns: [
+            {
+              protocol: "https",
+              hostname: "**",
+            },
+        ],
+        // domains: [ 'nostr.build',
+        // 'robohash.org', 
+        // 'upload.wikimedia.org', 
+        // 'nostamask.infura-ipfs.io']
     }
 }
 

@@ -8,9 +8,9 @@ import { Kind0UserData, TestPubkey } from '@lib/utils/nostr';
 import { Tweet } from '@lib/types/tweet';
 
 
-export async function convertPubKeyOnlyToUser(
+export function convertPubKeyOnlyToUser(
     pubkeyResponse: string,
-    ): Promise<User> {
+    ): User {
     
     let npub = ""
     if(pubkeyResponse.startsWith("0x")) {
@@ -27,7 +27,8 @@ export async function convertPubKeyOnlyToUser(
         accent: null,
         website: null,
         location: null,
-        photoURL: "https://robohash.org/"+npub as string,
+        // photoURL: "https://robohash.org/"+npub as string,
+        photoURL: "",
         username: npub,
         verified: false,
         following: [],

@@ -14,7 +14,10 @@ import { User } from '@lib/types/user';
 import { useAuth } from '@lib/context/auth-context';
 import { convertUserDataToKind0UserData } from '@lib/utils/convert';
 import { Kind0UserData, TestPubkey } from '@lib/utils/nostr';
-   
+import useSwr from 'swr'
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json())
+
 export function UserDataLayout({ children }: LayoutProps): JSX.Element {
 
   const router = useRouter();
@@ -47,17 +50,19 @@ export function UserDataLayout({ children }: LayoutProps): JSX.Element {
 //     "npub": "npub1ns4xf9d5u00f8ulpesj540jq0rshce89wudtcem2tcs9kc439pkqpasrca"
 // }
 
-  const { data: userData, isLoading: loading  } = useProfile({
-    pubkey: nip19.decode(router.query.npub?.toString() ?? "").data.toString(),
-    // pubkey: TestPubkey,
-  });
+  const pubkey = nip19.decode(router.query.npub?.toString() ?? "").data.toString();
+  const { data: userData, error, isLoading: loading } = useSwr<Kind0UserData>(`/api/metadata/${pubkey}`, fetcher)
+
+  // const { data: userData, isLoading: loading  } = useProfile({
+  //   pubkey: nip19.decode(router.query.npub?.toString() ?? "").data.toString(),
+  //   // pubkey: TestPubkey,
+  // });
   
   // const user = data ? data[0] : null;
   let user = null;
 
   if(userData) {
     // console.log(userData);
-
     user = convertUserDataToKind0UserData(userData as Kind0UserData);
 
   } 

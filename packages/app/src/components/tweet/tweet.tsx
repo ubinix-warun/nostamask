@@ -14,10 +14,14 @@ import { TweetActions } from '@components/tweet/tweet-actions';
 import { TweetStatus } from '@components/tweet/tweet-status';
 import { TweetStats } from '@components/tweet/tweet-stats';
 import { TweetDate } from '@components/tweet/tweet-date';
+import Avatar, { genConfig } from 'react-nice-avatar'
 import type { Variants } from 'framer-motion';
 import type { Tweet } from '@lib/types/tweet';
 import type { User } from '@lib/types/user';
 import { Event } from 'nostr-tools';
+import { Kind0UserData } from '@lib/utils/nostr';
+import useSwr from 'swr'
+import { convertPubKeyOnlyToUser, convertUserDataToKind0UserData } from '@lib/utils/convert';
 
 // export type TweetProps = Tweet & {
 //   user: User;
@@ -28,7 +32,7 @@ import { Event } from 'nostr-tools';
 // };
 
 export type TweetEventProps = Event & {
-  user: User;
+  // user: User;
   modal?: boolean;
   pinned?: boolean;
 };
@@ -38,6 +42,11 @@ export const variants: Variants = {
   animate: { opacity: 1, transition: { duration: 0.8 } },
   exit: { opacity: 0, transition: { duration: 0.2 } }
 };
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json())
+// const fetcher = async (url: string) => {
+//   const res = await fetch(`${url}?_limit=${limit}`);
+// };
 
 export function Tweet(tweet : TweetEventProps): JSX.Element {
   const {
@@ -54,14 +63,35 @@ export function Tweet(tweet : TweetEventProps): JSX.Element {
   //   parentTweet,
   //   userReplies,
   //   userRetweets,
+    pubkey,
     created_at: createdAt,
-    user: tweetUserData,
+    // user: tweetUserData,
     tags
   } = tweet;
+  
+  const { data: userData, error, isLoading: loading } = useSwr<Kind0UserData>(`/api/metadata/${pubkey}`, fetcher)
+  console.log(userData);
 
-  const { id: ownerId, name, username, verified, photoURL } = tweetUserData;
+  let tweetUserData = convertPubKeyOnlyToUser(pubkey);
+
+  let ownerId = tweetUserData.id;
+  let name = tweetUserData.name;
+  let username = tweetUserData.username;
+  let verified = tweetUserData.verified;
+  let photoURL = tweetUserData.photoURL;
+
+  if(userData) {
+    tweetUserData = convertUserDataToKind0UserData(userData as Kind0UserData);
+    // { id: ownerId, name, username, verified, photoURL } = tweetUserData;
+    ownerId = tweetUserData.id;
+    name = tweetUserData.name;
+    username = tweetUserData.username;
+    verified = tweetUserData.verified;
+    photoURL = tweetUserData.photoURL;
+  }
 
   // const { user } = useAuth();
+  // console.log(tweet);
   // console.log(tweetUserData);
 
   const { open, openModal, closeModal } = useModal();
@@ -133,7 +163,10 @@ export function Tweet(tweet : TweetEventProps): JSX.Element {
             </AnimatePresence> */}
             <div className='flex flex-col items-center gap-2'>
               <UserTooltip avatar modal={modal} {...tweetUserData}>
-                <UserAvatar src={photoURL} alt={name} username={username} />
+                {photoURL=="" ?
+                  <Avatar style={{ width: '3rem', height: '3rem' }} {...genConfig(username) } />:
+                  <UserAvatar src={photoURL} alt={name} username={username} />
+                }
               </UserTooltip>
               {/* {parentTweet && (
                 <i className='hover-animation h-full w-0.5 bg-light-line-reply dark:bg-dark-line-reply' />

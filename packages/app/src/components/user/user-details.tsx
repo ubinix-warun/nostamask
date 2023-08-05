@@ -95,7 +95,7 @@ export function UserDetails({
           )} */}
         </div>
       </div>
-      <UserFollowStats following={following} followers={followers} />
+      {/* <UserFollowStats following={following} followers={followers} /> */}
     </>
   );
 }

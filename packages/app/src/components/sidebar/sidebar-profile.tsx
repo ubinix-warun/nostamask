@@ -9,6 +9,7 @@ import { Button } from '@components/ui/button';
 import { HeroIcon } from '@components/ui/hero-icon';
 import { CustomIcon } from '@components/ui/custom-icon';
 import { UserAvatar } from '@components/user/user-avatar';
+import Avatar, { genConfig } from 'react-nice-avatar'
 import { UserName } from '@components/user/user-name';
 import { UserUsername } from '@components/user/user-username';
 import { variants } from '@components/sidebar/more-settings';
@@ -49,7 +50,10 @@ export function SidebarProfile(): JSX.Element {
               )}
             >
               <div className='flex gap-3 truncate'>
-                <UserAvatar src={photoURL} alt={name} size={40} />
+                {photoURL=="" ?
+                  <Avatar style={{ width: '2.5rem', height: '2.5rem' }} {...genConfig(username) } />:
+                  <UserAvatar src={photoURL} alt={name} size={40} />
+                }
                 <div className='hidden truncate text-start leading-5 xl:block'>
                   <UserName name={name} className='start' verified={verified} />
                   <UserUsername username={username} disableLink />
@@ -75,7 +79,10 @@ export function SidebarProfile(): JSX.Element {
                     disabled
                   >
                     <div className='flex items-center gap-3 truncate'>
-                      <UserAvatar src={photoURL} alt={name} />
+                      {photoURL=="" ?
+                        <Avatar style={{ width: '3rem', height: '3rem' }} {...genConfig(username) } />:
+                        <UserAvatar src={photoURL} alt={name}  />
+                      }
                       <div className='truncate'>
                         <UserName name={name} verified={verified} />
                         <UserUsername username={username} disableLink />

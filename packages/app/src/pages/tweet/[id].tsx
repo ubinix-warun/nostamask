@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { AnimatePresence } from 'framer-motion';
 // import { doc, query, where, orderBy } from 'firebase/firestore';
@@ -20,12 +20,16 @@ import type { ReactElement, ReactNode } from 'react';
 import { TweetWithUser } from '@lib/types/tweet';
 import { useAuth } from '@lib/context/auth-context';
 import { useNostrEvents } from 'nostr-react';
+import { Event } from 'nostr-tools';
+import { convertUserDataToKind0UserData } from '@lib/utils/convert';
+import { Kind0UserData } from '@lib/utils/nostr';
 
 export default function TweetId(): JSX.Element {
   const router = useRouter();
   const { user } = useAuth();
 
-  const [ tweetData, setTweetDate ] = useState<TweetWithUser>();
+  const [ tweetData, setTweetData ] = useState<TweetWithUser>();
+  const [ tweetEvent, setTweetEvent ] = useState<Event>();
 
   const [ parentId, setParentId ] = useState<string>();
   const [ pageTitle, setPageTitle ] = useState<string>();
@@ -53,40 +57,60 @@ export default function TweetId(): JSX.Element {
 
   onTweetEvent((rawMetadata) => {
 
-      if(user) {
-        setTweetDate({
-          id: router.query.id?.toString() ?? "",
-          text: rawMetadata.content,
-          images: null,
-          parent: null,
-          userLikes: [],
-          createdBy: user.username,
-          createdAt: rawMetadata.created_at,
-          user: user,
-          userReplies: 0,
-          userRetweets: []
-        });
-        
-        const { text, images } = tweetData ?? {};
-
-        const imagesLength = images?.length ?? 0;
-        const parentId = tweetData?.parent?.id;
-
-        const pageTitle = tweetData
-          ? `${tweetData.user.name} on Twitter: "${text ?? ''}${
-              images ? ` (${imagesLength} image${isPlural(imagesLength)})` : ''
-            }" / Twitter`
-          : null;
-
-        if(parentId!==null)
-          setParentId(parentId);
-
-        if(pageTitle!==null)
-          setPageTitle(pageTitle);
-
-      }
+    setTweetEvent(rawMetadata);
 
   })
+
+  useEffect(() => {
+
+    if(tweetEvent) {
+
+
+      fetch(`/api/metadata/${tweetEvent.pubkey}`)
+        .then((response) => response.json())
+        .then((data) => {
+            const tweetUser = convertUserDataToKind0UserData(data as Kind0UserData);
+
+            setTweetData({
+              id: router.query.id?.toString() ?? "",
+              text: tweetEvent.content,
+              images: null,
+              parent: null,
+              userLikes: [],
+              createdBy: tweetUser.username,
+              createdAt: tweetEvent.created_at,
+              user: tweetUser,
+              userReplies: 0,
+              userRetweets: []
+            });
+            
+            const { text, images } = tweetData ?? {};
+
+            const imagesLength = images?.length ?? 0;
+            const parentId = tweetData?.parent?.id;
+
+            const pageTitle = tweetData
+              ? `${tweetData.user.name} on Twitter: "${text ?? ''}${
+                  images ? ` (${imagesLength} image${isPlural(imagesLength)})` : ''
+                }" / Twitter`
+              : null;
+
+            if(parentId!==null)
+              setParentId(parentId);
+
+            if(pageTitle!==null)
+              setPageTitle(pageTitle);
+
+          })
+        .catch(console.error);
+
+    }
+  
+  }, [tweetEvent]);
+
+  // if(user) {
+
+  // }
 
 
   // // const { data: repliesData, loading: repliesLoading } = useCollection(
@@ -108,7 +132,7 @@ export default function TweetId(): JSX.Element {
         action={router.back}
       />
       <section>
-        {tweetLoading ? (
+        {tweetLoading || (tweetEvent && !tweetData) ? (
           <Loading className='mt-5' />
         ) : !tweetData ? (
           <>

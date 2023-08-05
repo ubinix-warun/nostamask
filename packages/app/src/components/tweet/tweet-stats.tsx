@@ -102,7 +102,7 @@ export function TweetStats({
           onClick={openModal}
           disabled={reply}
         />
-        <TweetOption
+        {/* <TweetOption
           className={cn(
             'hover:text-accent-green focus-visible:text-accent-green',
             tweetIsRetweeted && 'text-accent-green [&>i>svg]:[stroke-width:2px]'
@@ -137,7 +137,7 @@ export function TweetStats({
           //   userId,
           //   tweetId
           // )}
-        />
+        /> */}
         <TweetShare userId={userId} tweetId={tweetId} viewTweet={viewTweet} />
         {isOwner && (
           <TweetOption

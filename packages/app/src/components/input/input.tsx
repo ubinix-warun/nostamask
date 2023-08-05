@@ -12,9 +12,10 @@ import { toast } from 'react-hot-toast';
 //   manageTotalPhotos
 // } from '@lib/firebase/utils';
 import { useAuth } from '@lib/context/auth-context';
-import { sleep } from '@lib/utils';
+import { convertUsernameShort, sleep } from '@lib/utils';
 import { getImagesData } from '@lib/validation';
 import { UserAvatar } from '@components/user/user-avatar';
+import Avatar, { genConfig } from 'react-nice-avatar'
 import { InputForm, fromTop } from './input-form';
 import { ImagePreview } from './image-preview';
 import { InputOptions } from './input-options';
@@ -130,7 +131,7 @@ export function Input({
       () => (
         <span className='flex gap-2'>
           Your Tweet was sent
-          {/* <Link href={`/tweet/${tweetId}`}>
+          {/* <Link href={`/tweet/${tweetId}`} legacyBehavior>
             <a className='custom-underline font-bold'>View</a>
           </Link> */}
         </span>
@@ -233,9 +234,9 @@ export function Input({
           {...fromTop}
         >
           Replying to{' '}
-          <Link href={`/user/${parent?.username as string}`}>
+          <Link href={`/user/${parent?.username as string}`} legacyBehavior>
             <a className='custom-underline text-main-accent'>
-              {parent?.username as string}
+              {convertUsernameShort(parent?.username as string)}
             </a>
           </Link>
         </motion.p>
@@ -252,7 +253,10 @@ export function Input({
         )}
         htmlFor={formId}
       >
-        <UserAvatar src={photoURL} alt={name} username={username} />
+        {photoURL=="" ?
+          <Avatar style={{ width: '3rem', height: '3rem' }} {...genConfig(username) } />:
+          <UserAvatar src={photoURL} alt={name} username={username} />
+        }
         <div className='flex w-full flex-col gap-4'>
           <InputForm
             modal={modal}

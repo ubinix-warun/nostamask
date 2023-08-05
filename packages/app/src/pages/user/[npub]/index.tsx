@@ -95,7 +95,8 @@ export default function UserTweets(): JSX.Element {
           // user?.username !== undefined &&
           // user?.username.length > 0 && 
           events.map((event) => (
-            <Tweet {...event} user={user} key={`${event.id}`} />
+            // <Tweet {...event} user={user} key={`${event.id}`} />
+            <Tweet {...event} key={`${event.id}`} />
           ))}
       </AnimatePresence>
     )}

@@ -36,6 +36,10 @@ export default function Home(): JSX.Element {
     filter: {
       authors: [
         user?.id ?? "",
+        "30808bfa8fe90e81ff35c94dce20e129345ccac1ea083c0662d288e31e1821ab",
+        "640268b63356999349ba5556a0ce24e4a96d28da707f98f0590356000a3f20f1",
+        "eab0e756d32b80bcd464f3d844b8040303075a13eabc3599a762c9ac7ab91f4f",
+        "82341f882b6eabcd2ba7f1ef90aad961cf074af15b9ef44a09f9d2a8fbfbe6a2",
       ],
       since: 0,
       limit: 20,
@@ -64,8 +68,8 @@ export default function Home(): JSX.Element {
         ) : (
           <>
             <AnimatePresence mode='popLayout'>
-              { user && data.map((tweet) => (
-                <Tweet {...tweet} user={user} key={tweet.id} />
+              {data.map((tweet) => (
+                <Tweet {...tweet} key={tweet.id} />
               ))}
             </AnimatePresence>
             {/* <LoadMore /> */}

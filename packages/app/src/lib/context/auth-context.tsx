@@ -18,7 +18,7 @@ import { useState, useEffect, useContext, createContext, useMemo } from 'react';
 //   userStatsCollection,
 //   userBookmarksCollection
 // } from '@lib/firebase/collections';
-import type { ReactNode } from 'react';
+import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import { getRandomId } from '@lib/random';
 // import type { User as AuthUser } from 'firebase/auth';
 // import type { WithFieldValue } from 'firebase/firestore';
@@ -34,8 +34,9 @@ import {
 import { getNostrDefaultPublicKey , getSchnorrPublicKey} from '@lib/utils/snap';
 import {generatePrivateKey, getPublicKey, nip19} from 'nostr-tools'
 import { useNostrEvents } from 'nostr-react'
-import { convertPubKeyOnlyToUser } from '@lib/utils/convert';
+import { convertPubKeyOnlyToUser, convertUserDataToKind0UserData } from '@lib/utils/convert';
 import { useUser } from './user-context';
+import { Kind0UserData } from '@lib/utils/nostr';
 
 type AuthContext = {
   user: User | null;
@@ -75,6 +76,7 @@ export function AuthContextProvider({
 
   }, []);
 
+  
   useEffect(() => {
 
     if(state.isFlask && state.installedSnap !== undefined) {
@@ -91,7 +93,7 @@ export function AuthContextProvider({
             // npub1q0m4t4f0exfru3auyx58vt5jx3znkmvp78qxctv0m2gu7e0q0q3hun0cq9w
             // npub1ersurphh8d68ndnsz9zru8ht68zpuhfx23nmwwkefrv57xle32xswf67m2
 
-            const userData = await convertPubKeyOnlyToUser(pubkeyResponse);
+            const userData = convertPubKeyOnlyToUser(pubkeyResponse);
 
             setUser(userData);
             setLoading(false);
@@ -115,10 +117,24 @@ export function AuthContextProvider({
   }, [state]);
 
   
-  // useEffect(() => {
-  //   console.log("GOT UID=" + user?.id);
+  useEffect(() => {
+
+    if(user){
+
     
-  // }, [user?.id]);
+      setLoading(true);
+      fetch(`/api/metadata/${user?.id}`)
+        .then((response) => response.json())
+        .then((data) => {
+            const userData = convertUserDataToKind0UserData(data as Kind0UserData);
+            setUser(userData);
+            setLoading(false);
+          })
+        .catch(console.error);
+
+    }
+
+  }, [user?.id]);
 
   // const signInWithGoogle = async (): Promise<void> => {
   //   try {
@@ -173,7 +189,7 @@ export function AuthContextProvider({
     signOut,
     // signInWithGoogle,
     openFlaskFoxWebSite,
-    connectWithSnap
+    connectWithSnap,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

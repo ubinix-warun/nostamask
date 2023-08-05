@@ -32,7 +32,7 @@ export function ViewTweet(tweet: ViewTweetProps): JSX.Element {
     parent,
     userLikes,
     createdBy,
-    // createdAt,
+    createdAt,
     userRetweets,
     userReplies,
     viewTweetRef,
@@ -117,7 +117,7 @@ export function ViewTweet(tweet: ViewTweetProps): JSX.Element {
       {reply && (
         <p className='text-light-secondary dark:text-dark-secondary'>
           Replying to{' '}
-          <Link href={`/user/${parentUsername}`}>
+          <Link href={`/user/${parentUsername}`} legacyBehavior>
             <a className='custom-underline text-main-accent'>
               @{parentUsername}
             </a>
@@ -139,7 +139,7 @@ export function ViewTweet(tweet: ViewTweetProps): JSX.Element {
           className='inner:hover-animation inner:border-b inner:border-light-border
                      dark:inner:border-dark-border'
         >
-          {/* <TweetDate viewTweet tweetLink={tweetLink} createdAt={createdAt} /> */}
+          <TweetDate viewTweet tweetLink={tweetLink} createdAt={createdAt} />
           <TweetStats
             viewTweet
             reply={reply}
