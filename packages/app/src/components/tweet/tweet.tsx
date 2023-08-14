@@ -36,7 +36,6 @@ export type TweetEventProps = Event & {
   // user: User;
   modal?: boolean;
   pinned?: boolean;
-  parentTweet?: boolean;
 };
 
 export const variants: Variants = {
@@ -62,7 +61,7 @@ export function Tweet(tweet : TweetEventProps): JSX.Element {
   //   userLikes,
   //   createdBy,
   //   createdAt,
-    parentTweet,
+  //   parentTweet,
   //   userReplies,
   //   userRetweets,
     pubkey,
@@ -123,7 +122,7 @@ export function Tweet(tweet : TweetEventProps): JSX.Element {
       {...(!modal ? { ...variants, layout: 'position' } : {})}
       animate={{
         ...variants.animate,
-        ...(parentTweet && { transition: { duration: 0.2 } })
+        // ...(parentTweet && { transition: { duration: 0.2 } })
       }}
     >
       <Modal
@@ -139,9 +138,9 @@ export function Tweet(tweet : TweetEventProps): JSX.Element {
           className={cn(
             `accent-tab hover-card relative flex flex-col 
              gap-y-4 px-4 py-3 outline-none duration-200`,
-            parentTweet
-              ? 'mt-0.5 pt-2.5 pb-0'
-              : 'border-b border-light-border dark:border-dark-border'
+            // parentTweet
+            //   ? 'mt-0.5 pt-2.5 pb-0'
+            //   : 'border-b border-light-border dark:border-dark-border'
           )}
           onClick={delayScroll(200)}
         >
@@ -170,9 +169,9 @@ export function Tweet(tweet : TweetEventProps): JSX.Element {
                   <UserAvatar src={photoURL} alt={name} username={username} />
                 }
               </UserTooltip>
-              {parentTweet && (
+              {/* {parentTweet && (
                 <i className='hover-animation h-full w-0.5 bg-light-line-reply dark:bg-dark-line-reply' />
-              )}
+              )} */}
             </div>
             <div className='flex min-w-0 flex-col'>
               <div className='flex justify-between gap-2 text-light-secondary dark:text-dark-secondary'>
