@@ -31,6 +31,7 @@ import { convertPubKeyOnlyToUser, convertUserDataToKind0UserData } from '@lib/ut
 //   parentTweet?: boolean;
 // };
 
+// export type TweetEventProps = Tweet & Event & {
 export type TweetEventProps = Event & {
   // user: User;
   modal?: boolean;
@@ -54,7 +55,7 @@ export function Tweet(tweet : TweetEventProps): JSX.Element {
     id: tweetId,
     content,
     modal,
-  //   images,
+    // images,
     // parent,
     // pinned,
   //   profile,
@@ -131,7 +132,7 @@ export function Tweet(tweet : TweetEventProps): JSX.Element {
         open={open}
         closeModal={closeModal}
       >
-        {/* <TweetReplyModal tweet={tweet} closeModal={closeModal} /> */}
+        <TweetReplyModal tweet={tweet} closeModal={closeModal} />
       </Modal>
       <Link href={tweetLink} scroll={!reply} legacyBehavior>
         <a

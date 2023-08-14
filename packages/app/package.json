@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.16",
     "@infura/sdk": "^2.4.3",
     "@types/node": "20.4.1",
     "@types/react": "18.2.14",
@@ -24,8 +25,11 @@
     "postcss": "8.4.25",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hot-toast": "^2.4.1",
     "react-nice-avatar": "^1.4.1",
+    "react-textarea-autosize": "^8.5.2",
     "sass": "^1.63.6",
+    "swr": "^2.2.1",
     "tailwindcss": "3.3.2",
     "typescript": "5.1.6"
   },
