@@ -1,7 +1,7 @@
-// import { OnRpcRequestHandler, SnapsGlobalObject } from '@metamask/snaps-types';
-// import { panel, text, heading, divider, copyable } from '@metamask/snaps-ui';
-import { OnRpcRequestHandler, SnapsGlobalObject } from './snaps-types';
-import { panel, text, heading, divider, copyable, form, input, InputTypes } from './snaps-ui';
+import { OnRpcRequestHandler, SnapsGlobalObject } from '@metamask/snaps-types';
+import { panel, text, heading, divider, copyable } from '@metamask/snaps-ui';
+// import { OnRpcRequestHandler, SnapsGlobalObject } from './snaps-types';
+// import { panel, text, heading, divider, copyable, form, input, InputTypes } from './snaps-ui';
 
 import {
   getDefaultPublicKey,
@@ -39,7 +39,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ origin, request }) => 
             divider(),
             text('Event:'),
             copyable(JSON.stringify(request.params)),
-            form('myForm', [input('myInput')]),
+            // form('myForm', [input('myInput')]),
             // input('myInput', InputTypes.Text, 'type here...', 'foo bar', 'input'),
           ]),
         },

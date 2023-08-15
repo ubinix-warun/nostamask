@@ -41,6 +41,7 @@
     "@metamask/providers": "^11.1.1",
     "@metamask/snaps-cli": "^0.32.2",
     "@metamask/snaps-jest": "^0.35.2-flask.1",
+    "@metamask/snaps-types": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
     "eslint": "^8.21.0",
