@@ -18,6 +18,14 @@ To interact with (your) Snaps, you will need to install [MetaMask Flask](https:/
 
 ## Getting Started
 
+Config Infura API Key on packages/app/.env.local
+
+```
+NEXT_PUBLIC_INFURA_API_KEY="<>"
+NEXT_PUBLIC_INFURA_API_KEY_SECRET="<>"
+
+```
+
 Run Snap and App.
 
 ```shell
