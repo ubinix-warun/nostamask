@@ -1,5 +1,5 @@
 {
-  "version": "0.7.7",
+  "version": "0.9.2",
   "description": "An NostaMask -- Nostr Protocol and Bip32 Extended for Metamask.",
   "proposedName": "NostaMask Snap",
   "repository": {
@@ -7,7 +7,7 @@
     "url": "https://github.com/ubinix-warun/nostamask.git"
   },
   "source": {
-    "shasum": "XCcj8ODYf2MxT4dv31JzgsqDLTkZqyro6ixCRiYhqzw=",
+    "shasum": "xDy8R+8YoWaXpoPa3DKe/lim3iHJBnMaAaYBG35M+Yw=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",

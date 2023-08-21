@@ -3,7 +3,7 @@ import {
     getEventHash,
     type Event as NostrEvent,
 } from 'nostr-tools'
-import {generatePrivateKey, getPublicKey} from 'nostr-tools'
+import {getPublicKey} from 'nostr-tools'
 
 import { getAccountFromWallet } from './private-key';
 import { NostrEventParams } from './rpc-types';
@@ -23,26 +23,32 @@ export const getDefaultPublicKey = async (): Promise<string> => {
 };
 
 
-export const getSchnorrPublicKey = async (): Promise<string> => {
+export const isExistsSchnorrPublicKey = async (): Promise<boolean> => {
 
     let persistedData = await getSecureState();
 
-    if(persistedData === null) {
-        let sk = generatePrivateKey() // `sk` is a hex string
-        await snap.request({
-            method: 'snap_manageState',
-            params: { operation: 'update', newState: { sk: sk } },
-        });
+    return (persistedData !== null && persistedData?.sk !== undefined)
+}
 
-        // reload 
-        persistedData = await getSecureState();
-    } 
+export const getSchnorrPublicKey = async (): Promise<string> => {
 
-    if(persistedData === null || persistedData?.sk === undefined) {
+    // if(persistedData === null) {
+    //     let sk = generatePrivateKey() // `sk` is a hex string
+    //     await snap.request({
+    //         method: 'snap_manageState',
+    //         params: { operation: 'update', newState: { sk: sk } },
+    //     });
+
+    //     // reload 
+    //     persistedData = await getSecureState();
+    // } 
+
+    if(!(await isExistsSchnorrPublicKey())) {
 
         throw new Error('persistedData null or .sk undefined');
     }
 
+    let persistedData = await getSecureState();
     let pk = getPublicKey(persistedData?.sk?.toString() ?? "") // `pk` is a hex string
 
     return pk;

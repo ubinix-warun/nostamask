@@ -88,6 +88,12 @@ export const getSchnorrPublicKey = async () => {
   });
 };
 
+export const isExistsSchnorrPublicKey = async () => {
+  return snapNostrRpcRequest({
+    snapRpcMethod: 'isExistsSchnorrPublicKey',
+  });
+};
+
 export const signNostrEvent = async (e: any) => {
   return snapNostrRpcRequest({
     snapRpcMethod: 'signNostrEvent',

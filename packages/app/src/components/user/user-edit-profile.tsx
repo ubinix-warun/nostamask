@@ -114,18 +114,39 @@ export function UserEditProfile({ hide }: UserEditProfileProps): JSX.Element {
 
     await sleep(500);
 
-    await updateUserData(user, publish, newUserData);
+    try {
 
-    closeModal();
+      await updateUserData(user, publish, newUserData);
 
-    cleanImage();
+      closeModal();
+  
+      cleanImage();
+  
+      setLoading(false);
+      setEditUserData(newUserData);
+  
+      console.log(newUserData);
+  
+      toast.success('Profile updated successfully');
 
-    setLoading(false);
-    setEditUserData(newUserData);
+    } catch(e) {
 
-    console.log(newUserData);
 
-    toast.success('Profile updated successfully');
+      closeModal();
+
+      cleanImage();
+
+      setLoading(false);
+      setEditUserData(newUserData);
+
+      console.log(newUserData);
+
+      console.log(e);
+      
+      toast.error('Profile update :Error');
+
+    }
+
   };
 
   const editImage =

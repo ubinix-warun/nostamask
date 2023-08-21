@@ -109,35 +109,63 @@ export function Input({
 
     await sleep(500);
 
-    await publishTweetData(user, publish, tweetData);
+    try {
 
-    // const [tweetRef] = await Promise.all([
-    //   addDoc(tweetsCollection, tweetData),
-    //   manageTotalTweets('increment', userId),
-    //   tweetData.images && manageTotalPhotos('increment', userId),
-    //   isReplying && manageReply('increment', parent?.id as string)
-    // ]);
+      await publishTweetData(user, publish, tweetData);
 
-    // const { id: tweetId } = await getDoc(tweetRef);
+      // const [tweetRef] = await Promise.all([
+      //   addDoc(tweetsCollection, tweetData),
+      //   manageTotalTweets('increment', userId),
+      //   tweetData.images && manageTotalPhotos('increment', userId),
+      //   isReplying && manageReply('increment', parent?.id as string)
+      // ]);
 
-    if (!modal && !replyModal) {
-      discardTweet();
-      setLoading(false);
+      // const { id: tweetId } = await getDoc(tweetRef);
+
+      if (!modal && !replyModal) {
+        discardTweet();
+        setLoading(false);
+      }
+
+      if (closeModal) closeModal();
+
+      toast.success(
+        () => (
+          <span className='flex gap-2'>
+            Your Tweet was sent
+            {/* <Link href={`/tweet/${tweetId}`} legacyBehavior>
+              <a className='custom-underline font-bold'>View</a>
+            </Link> */}
+          </span>
+        ),
+        { duration: 6000 }
+      );
+
+    } catch (e) {
+
+        console.log(e);
+        
+        if (!modal && !replyModal) {
+          discardTweet();
+          setLoading(false);
+        }
+
+        if (closeModal) closeModal();
+
+        toast.error(
+          () => (
+            <span className='flex gap-2'>
+              Your Tweet was Error
+              {/* <Link href={`/tweet/${tweetId}`} legacyBehavior>
+                <a className='custom-underline font-bold'>View</a>
+              </Link> */}
+            </span>
+          ),
+          { duration: 6000 }
+        );
+
     }
 
-    if (closeModal) closeModal();
-
-    toast.success(
-      () => (
-        <span className='flex gap-2'>
-          Your Tweet was sent
-          {/* <Link href={`/tweet/${tweetId}`} legacyBehavior>
-            <a className='custom-underline font-bold'>View</a>
-          </Link> */}
-        </span>
-      ),
-      { duration: 6000 }
-    );
   };
 
   const handleImageUpload = (

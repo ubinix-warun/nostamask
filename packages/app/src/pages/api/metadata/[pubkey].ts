@@ -44,8 +44,11 @@ export default async function userHandler(
         kinds: [0]
     });
 
-    if(event == null || event?.content == undefined) 
-        res.status(404).end(`Metadata's not found: ${pubkey}`);
+    if(event === null || event?.content === undefined) {
+      console.log(event?.content)
+      res.status(404).end(`Metadata's not found: ${pubkey}`);
+      return
+    }
 
 
     let metadata =  JSON.parse(event?.content ?? "")
@@ -60,6 +63,7 @@ export default async function userHandler(
         default:
           res.setHeader('Allow', ['GET']);
           res.status(405).end(`Method ${method} Not Allowed`);
+          break
     }
 
 }

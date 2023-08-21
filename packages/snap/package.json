@@ -1,6 +1,6 @@
 {
   "name": "nostamask-snap",
-  "version": "0.7.7",
+  "version": "0.9.2",
   "private": true,
   "description": "An NostaMask -- Nostr Protocol and Bip32 Extended for Metamask.",
   "repository": {
@@ -27,7 +27,9 @@
     "test": "jest"
   },
   "dependencies": {
-    "buffer": "^6.0.3"
+    "buffer": "^6.0.3",
+    "navh-metamask-snaps-types": "0.35.2-flask.preview3",
+    "navh-metamask-snaps-ui": "0.35.2-flask.preview3"
   },
   "devDependencies": {
     "@jest/globals": "^29.5.0",
@@ -41,7 +43,6 @@
     "@metamask/providers": "^11.1.1",
     "@metamask/snaps-cli": "^0.32.2",
     "@metamask/snaps-jest": "^0.35.2-flask.1",
-    "@metamask/snaps-types": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
     "eslint": "^8.21.0",

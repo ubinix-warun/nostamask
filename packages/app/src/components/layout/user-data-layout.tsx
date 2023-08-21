@@ -51,7 +51,7 @@ export function UserDataLayout({ children }: LayoutProps): JSX.Element {
 // }
 
   const pubkey = nip19.decode(router.query.npub?.toString() ?? "").data.toString();
-  const { data: userData, error, isLoading: loading } = useSwr<Kind0UserData>(`/api/metadata/${pubkey}`, fetcher)
+  const { data: userData, error, isLoading: loading } = useSwr<Kind0UserData>(`/api/metadata/${pubkey}`, fetcher, { refreshInterval: 600000, errorRetryInterval: 600000, shouldRetryOnError: false})
 
   // const { data: userData, isLoading: loading  } = useProfile({
   //   pubkey: nip19.decode(router.query.npub?.toString() ?? "").data.toString(),

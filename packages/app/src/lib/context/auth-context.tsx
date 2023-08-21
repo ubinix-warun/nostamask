@@ -86,6 +86,9 @@ export function AuthContextProvider({
 
           try {
 
+            // Key ?
+            // New or Import
+            
             const pubkeyResponse = await getSchnorrPublicKey();
 
             // TEST: npub!
