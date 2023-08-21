@@ -23,6 +23,14 @@ Config Infura API Key on packages/app/.env.local
 ```
 NEXT_PUBLIC_INFURA_API_KEY="<>"
 NEXT_PUBLIC_INFURA_API_KEY_SECRET="<>"
+NEXT_PUBLIC_SNAP_ORIGIN="npm:@ubinix-warun/nostamask-snap"
+```
+
+Publish Snap to NpmJS registry.
+
+```shell
+cd packages/snap
+npm publish
 
 ```
 
