@@ -28,7 +28,7 @@ yarn install && yarn start
 
 <img src="https://user-images.githubusercontent.com/3756229/261901462-7bb22e94-65c3-4b87-834c-256ce007ac1c.png" width="100%"/>
 
-<details>
+<details open>
   <summary>M1: Install Nostamask snap</summary>
   <br/>
   
@@ -37,7 +37,7 @@ yarn install && yarn start
 
   <br/>
 </details>
-<details>
+<details open>
   <summary>M2: Initialize Schnorr key or Import key</summary>
   <br/>
   
@@ -46,7 +46,7 @@ yarn install && yarn start
 
   <br/>
 </details>
-<details>
+<details open>
   <summary>M3: Sign event</summary>
   <br/>
   
@@ -55,7 +55,8 @@ yarn install && yarn start
 
   <br/>
 </details>
-
+<br/>
+<br/>
 
 ## Cloning
 
