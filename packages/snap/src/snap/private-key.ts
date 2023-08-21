@@ -1,5 +1,5 @@
 import { SLIP10Node, JsonBIP44CoinTypeNode, getBIP44AddressKeyDeriver, BIP44Node } from '@metamask/key-tree';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { SnapsGlobalObject } from 'navh-metamask-snaps-types';
 import { parseDerivartionPath } from './utils';
 
 export async function getAccountFromWallet(snap: SnapsGlobalObject, path?: string, index?: number): Promise<BIP44Node> {

@@ -2,7 +2,7 @@
   "name": "nostamask-snap",
   "version": "0.9.2",
   "private": true,
-  "description": "An NostaMask -- Nostr Protocol and Bip32 Extended for Metamask.",
+  "description": "An NostaMask -- Navigating Nostr Safely with Nostamask Snap.",
   "repository": {
     "type": "git",
     "url": "https://github.com/ubinix-warun/nostamask.git"

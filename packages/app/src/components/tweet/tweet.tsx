@@ -131,7 +131,7 @@ export function Tweet(tweet : TweetEventProps): JSX.Element {
         open={open}
         closeModal={closeModal}
       >
-        <TweetReplyModal tweet={tweet} closeModal={closeModal} />
+        {/* <TweetReplyModal tweet={tweet} closeModal={closeModal} /> */}
       </Modal>
       <Link href={tweetLink} scroll={!reply} legacyBehavior>
         <a
