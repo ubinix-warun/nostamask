@@ -1,18 +1,18 @@
 {
   "version": "0.9.2",
-  "description": "An NostaMask -- Nostr Protocol and Bip32 Extended for Metamask.",
+  "description": "An NostaMask -- Nostr Protocol and Bip44 for Metamask.",
   "proposedName": "NostaMask Snap",
   "repository": {
     "type": "git",
     "url": "https://github.com/ubinix-warun/nostamask.git"
   },
   "source": {
-    "shasum": "xDy8R+8YoWaXpoPa3DKe/lim3iHJBnMaAaYBG35M+Yw=",
+    "shasum": "q+0KCXhdw88GihNQIVhMnvXlxoYMo2qxSApCFC/WWa8=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
         "iconPath": "images/icon.svg",
-        "packageName": "nostamask-snap",
+        "packageName": "@ubinix-warun/nostamask-snap",
         "registry": "https://registry.npmjs.org/"
       }
     }
