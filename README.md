@@ -8,7 +8,7 @@ We create [Nostamask](https://github.com/ubinix-warun/nostamask) by extend the f
 
 <img src="https://user-images.githubusercontent.com/3756229/261893695-f31b549c-cf5f-4c1d-9667-4d6bd6a2b0cf.png" width="90%"/>
 
-
+### [Demo](https://youtu.be/lEJ_TWvziQ4) -- 4 min
 
 ## Snaps is pre-release software
 
@@ -55,7 +55,6 @@ yarn install && yarn start
 
   <br/>
 </details>
-<br/>
 <br/>
 
 ## Cloning
