@@ -1,32 +1,61 @@
-# @metamask/template-snap-monorepo
+# [Nostamask](https://github.com/ubinix-warun/nostamask) -- Navigating Nostr Safely with Nostamask Snap.
 
-This repository demonstrates how to develop a snap with TypeScript. For detailed instructions, see [the MetaMask documentation](https://docs.metamask.io/guide/snaps.html#serving-a-snap-to-your-local-environment).
+In an ever-evolving landscape of blockchain technologies and decentralized networks, seamless interaction and secure transactions have become paramount. Introducing Nostamask, a revolutionary Snaps plugin for Metamask, designed to redefine how users connect with the Nostr Network.
 
-MetaMask Snaps is a system that allows anyone to safely expand the capabilities of MetaMask. A _snap_ is a program that we run in an isolated environment that can customize the wallet experience.
+The Nostamask project addresses the challenges users currently face when navigating the complexities of Nostr Network interactions through Metamask. 
+
+We create [Nostamask](https://github.com/ubinix-warun/nostamask) by extend the functionality of [MetaMask Flask](https://github.com/ubinix-warun/metamask-extension) with [Snaps](https://github.com/ubinix-warun/metamask-snaps), use [nostr-tools](https://github.com/nbd-wtf/nostr-tools) interact Nostr network via relays and fork [twitter-clone](https://github.com/ccrsxx/twitter-clone) style to demonstrate the Snaps, use [Infura IPFS](https://docs.infura.io/networks/ipfs/http-api-methods) to store profile/banner. 
+
+<img src="https://user-images.githubusercontent.com/3756229/261893695-f31b549c-cf5f-4c1d-9667-4d6bd6a2b0cf.png" width="90%"/>
+
+
 
 ## Snaps is pre-release software
+
+MetaMask Snaps is a system that allows anyone to safely expand the capabilities of MetaMask. A _snap_ is a program that we run in an isolated environment that can customize the wallet experience.
 
 To interact with (your) Snaps, you will need to install [MetaMask Flask](https://metamask.io/flask/), a canary distribution for developers that provides access to upcoming features.
 
 ## Getting Started
 
-Clone the template-snap repository [using this template](https://github.com/MetaMask/template-snap-monorepo/generate) and setup the development environment:
-
-```
-yarn create @metamask/snap nostamask 
-npx create-next-app@latest app
-
-cd packages/app
-npm i eslint-config-next --save-dev
-npm i eslint-plugin-next --save-dev
-
-cd ../..
-
-```
+Run Snap and App.
 
 ```shell
 yarn install && yarn start
 ```
+
+## [Snap Dialog](https://www.figma.com/file/i9OMDnUcuh8N79QIaZhRak/Nostamask?type=whiteboard&node-id=0%3A1&t=0rIiI33Di8zgxzaS-1) 
+
+<img src="https://user-images.githubusercontent.com/3756229/261901462-7bb22e94-65c3-4b87-834c-256ce007ac1c.png" width="100%"/>
+
+<details>
+  <summary>M1: Install Nostamask snap</summary>
+  <br/>
+  
+  * Nostamask enable [manageState and Bip44 cointype:0](https://github.com/ubinix-warun/nostamask/blob/main/packages/snap/snap.manifest.json).
+  * Import nostr-tools on the extension and @noble/curves/secp256k1 for create schnorr signature.
+
+  <br/>
+</details>
+<details>
+  <summary>M2: Initialize Schnorr key or Import key</summary>
+  <br/>
+  
+  * The snap use manageState to [store key](https://github.com/ubinix-warun/nostamask/blob/main/packages/snap/src/snap/store-state.ts), new user can generate SK key and backup key.
+  * Import key for exists user and store in manageState.
+
+  <br/>
+</details>
+<details>
+  <summary>M3: Sign event</summary>
+  <br/>
+  
+  * The app use [Sign Event](https://github.com/ubinix-warun/nostamask/blob/main/packages/app/src/lib/utils/nostr.ts) and call RPC signEvent to Nostamask.
+  * Upload image to Infura IPFS API via [IPFS HTTP client](https://github.com/ubinix-warun/nostamask/blob/main/packages/app/src/lib/utils/infura.ts), Ex: profile image, banner.
+
+  <br/>
+</details>
+
 
 ## Cloning
 
