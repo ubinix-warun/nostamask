@@ -1,4 +1,4 @@
-# [Nostamask](https://github.com/ubinix-warun/nostamask) -- Navigating Nostr Safely with Nostamask Snap.
+# [Nostamask 👺](https://github.com/ubinix-warun/nostamask) -- Navigating Nostr Safely with Nostamask Snap.
 
 In an ever-evolving landscape of blockchain technologies and decentralized networks, seamless interaction and secure transactions have become paramount. Introducing Nostamask, a revolutionary Snaps plugin for Metamask, designed to redefine how users connect with the Nostr Network.
 
